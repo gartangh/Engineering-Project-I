@@ -1,5 +1,6 @@
 package be.ugent.csl.StepCounter;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
@@ -7,9 +8,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.speech.tts.TextToSpeech;
 import android.util.Log;
+import android.view.DragEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
@@ -65,13 +69,14 @@ public class StepCounterActivity extends Activity {
 	private Spinner detectorSpinner;
 	
 	/* text fields */
-	private TextView sampleRateText;
+	private TextView sampleRateText2;
 	private TextView traceLinesText;
 	private TextView numberOfStepsText;
 	
 	/* message input field */
 	private EditText messageEditText;
-	
+	private EditText sampleRateText;
+
 	/*
 	 * Interaction with the Service that gathers sensor data.
 	 */
@@ -105,7 +110,8 @@ public class StepCounterActivity extends Activity {
      * 
      * Here, you need to add code for several things.
      */
-    @Override
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         /* We indicate here that we will be using the layout defined in main.xml
@@ -146,15 +152,51 @@ public class StepCounterActivity extends Activity {
        	logDataCheckBox = (CheckBox)findViewById(R.id.logDataCheckBox);
 
         /* Text Views */
-        sampleRateText = (TextView)findViewById(R.id.sampleRateText);
+        sampleRateText2 = (TextView)findViewById(R.id.sampleRateText2);
         traceLinesText = (TextView)findViewById(R.id.traceLinesText);
         numberOfStepsText = (TextView)findViewById(R.id.numberOfStepsText);
 
         /* Input field for the message */
         messageEditText = (EditText)findViewById(R.id.messageEditText);
-        
+        sampleRateText = (EditText)findViewById(R.id.sampleRateText);
+
         /* seekbar */
         rateMultiplierBar = (SeekBar)findViewById(R.id.rateMultiplierBar);
+
+		sampleRateText2.setText("Normal");
+		rateMultiplierBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+			@Override
+			public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+				String s;
+				switch ((int) rateMultiplierBar.getProgress()) {
+					case 0:
+						s = "Normal";
+						break;
+					case 1:
+						s = "UI";
+						break;
+					case 2:
+						s = "Game";
+						break;
+					case 3:
+						s = "Fastest";
+						break;
+					default:
+						s = "Normal";
+				}
+				sampleRateText2.setText(s);
+			}
+
+			@Override
+			public void onStartTrackingTouch(SeekBar seekBar) {
+
+			}
+
+			@Override
+			public void onStopTrackingTouch(SeekBar seekBar) {
+
+			}
+		});
 
         /* Drop down menu */
         detectorSpinner = (Spinner) findViewById(R.id.detectorList);
@@ -173,7 +215,7 @@ public class StepCounterActivity extends Activity {
 			{
 				// TODO Auto-generated method stub
 			}
-        	
+
         });
 
         if(USE_SERVICE)

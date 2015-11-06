@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
+    <!--suppress ALL -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="fill_parent"
               android:orientation="vertical" android:weightSum="1">
-    <!--  Opgave 1: a. Definieer een layout (naar eigen keuze) zodat je alle UI 
+
+    <!--  Opgave 1: a. Definieer een layout (naar eigen keuze) zodat je alle UI
                        elementen netjes kunt voorstellen en zodat de samenhorende
                        elementen bij elkaar staan.
                     b. Plaats de verschillende widgets met de geschikte padding,
                        etc. in de verschillende containers. Zorg ervoor dat je
                        de IDs die je hier kiest, ook gebruikt in Opgave 2, zodat 
-                       de verschillende widgets de applicatie op de correcte 
+                       de verschillende widgets de applicatie op de correcte
                        manier kunnen aansturen. -->
     <!-- De onderstaande button mag je naar eigen goeddunken plaatsen in een
          (andere) container, zorg er gewoon voor dat ze zichtbaar blijft zodat
@@ -30,7 +32,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
         android:layout_below="@+id/detectorList"
-        android:layout_alignParentLeft="true" />
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="41dp"
+        android:layout_marginTop="48dp"/>
 
 
     <LinearLayout
@@ -44,12 +48,6 @@
         android:id="@+id/linearLayout"
         android:weightSum="1">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="112dp"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Aantal Stappen"
-            android:id="@+id/numberOfStepsText" />
     </LinearLayout>
 
     <Button
@@ -60,7 +58,8 @@
     android:id="@+id/logButton"
         android:layout_alignTop="@+id/clearButton"
         android:layout_alignParentRight="true"
-        android:layout_alignBottom="@+id/clearButton" />
+        android:layout_marginRight="45dp"
+        android:layout_alignBottom="@+id/clearButton"/>
 
     <Button
         style="?android:attr/buttonStyleSmall"
@@ -68,26 +67,27 @@
         android:layout_height="wrap_content"
         android:text="Clear"
         android:id="@+id/clearButton"
-        android:layout_below="@+id/detectorList"
         android:layout_centerHorizontal="true"
-        android:layout_alignBottom="@+id/quit" />
-
+        android:layout_alignBottom="@+id/quit"
+        android:layout_alignTop="@+id/quit"/>
     <CheckBox
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Log Data"
         android:id="@+id/logDataCheckBox"
         android:layout_above="@+id/sampleRateText"
-        android:layout_alignLeft="@+id/sampleRateText" />
+        android:layout_alignLeft="@+id/numberOfStepsText"/>
 
     <SeekBar
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/rateMultiplierBar"
         android:layout_alignParentBottom="true"
-        android:layout_toRightOf="@+id/quit"
-        android:layout_toLeftOf="@+id/logButton"
-        android:indeterminate="false" />
+        android:indeterminate="false"
+        android:layout_alignRight="@+id/logButton"
+        android:layout_alignLeft="@+id/sampleRateText"
+        android:max="3"
+        android:progress="2" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -95,7 +95,7 @@
         android:id="@+id/sampleRateText"
         android:text="Sample Rate"
         android:layout_above="@+id/rateMultiplierBar"
-        android:layout_alignLeft="@+id/rateMultiplierBar" />
+        android:layout_alignLeft="@+id/logDataCheckBox"/>
 
     <EditText
         android:layout_width="wrap_content"
@@ -103,16 +103,35 @@
         android:id="@+id/messageEditText"
         android:text="Message"
         android:layout_above="@+id/sampleRateText"
-        android:layout_alignRight="@+id/traceLinesText"
-        android:layout_toRightOf="@+id/sampleRateText" />
+        android:layout_toRightOf="@+id/sampleRateText"
+        android:layout_alignRight="@+id/logButton"/>
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/traceLinesText"
         android:layout_alignTop="@+id/sampleRateText"
-        android:layout_alignRight="@+id/rateMultiplierBar"
         android:layout_toRightOf="@+id/sampleRateText"
-        android:text="Trace Lines" />
+        android:text="Trace Lines"
+        android:layout_alignRight="@+id/messageEditText"
+        android:longClickable="false"/>
+
+    <TextView
+        android:layout_width="298dp"
+        android:layout_height="112dp"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Aantal Stappen"
+        android:id="@+id/numberOfStepsText"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sample Rate 2"
+        android:id="@+id/sampleRateText2"
+        android:layout_above="@+id/logDataCheckBox"
+        android:layout_alignLeft="@+id/logDataCheckBox"
+        android:layout_alignRight="@+id/sampleRateText" />
 
 </RelativeLayout>
