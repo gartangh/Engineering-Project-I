@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="fill_parent" 
+              android:layout_width="match_parent"
               android:layout_height="fill_parent"
               android:orientation="vertical" android:weightSum="1">
     <!--  Opgave 1: a. Definieer een layout (naar eigen keuze) zodat je alle UI 
@@ -22,7 +22,8 @@
         android:layout_alignParentLeft="true"
         android:layout_marginLeft="0dp"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="0dp" />
+        android:layout_marginTop="0dp"
+        android:spinnerMode="dialog" />
 
     <Button android:id="@+id/quit"
             android:text="Quit"
@@ -45,9 +46,9 @@
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="77dp"
+            android:layout_height="112dp"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="AANTAL STAPPEN"
+            android:text="Aantal Stappen"
             android:id="@+id/numberOfStepsText" />
     </LinearLayout>
 
@@ -65,7 +66,7 @@
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="CLEAR"
+        android:text="Clear"
         android:id="@+id/clearButton"
         android:layout_below="@+id/detectorList"
         android:layout_centerHorizontal="true"
@@ -74,33 +75,44 @@
     <CheckBox
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Log data"
+        android:text="Log Data"
         android:id="@+id/logDataCheckBox"
         android:layout_above="@+id/sampleRateText"
-        android:layout_alignParentLeft="true" />
+        android:layout_alignLeft="@+id/sampleRateText" />
 
     <SeekBar
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/rateMultiplierBar"
         android:layout_alignParentBottom="true"
+        android:layout_toRightOf="@+id/quit"
         android:layout_toLeftOf="@+id/logButton"
-        android:layout_toRightOf="@+id/quit" />
+        android:indeterminate="false" />
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/sampleRateText"
+        android:text="Sample Rate"
         android:layout_above="@+id/rateMultiplierBar"
-        android:layout_centerHorizontal="true"
-        android:text="sample rate" />
+        android:layout_alignLeft="@+id/rateMultiplierBar" />
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/messageEditText"
-        android:layout_alignLeft="@+id/sampleRateText"
-        android:layout_toLeftOf="@+id/logButton"
-        android:layout_alignTop="@+id/logDataCheckBox" />
+        android:text="Message"
+        android:layout_above="@+id/sampleRateText"
+        android:layout_alignRight="@+id/traceLinesText"
+        android:layout_toRightOf="@+id/sampleRateText" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/traceLinesText"
+        android:layout_alignTop="@+id/sampleRateText"
+        android:layout_alignRight="@+id/rateMultiplierBar"
+        android:layout_toRightOf="@+id/sampleRateText"
+        android:text="Trace Lines" />
 
 </RelativeLayout>

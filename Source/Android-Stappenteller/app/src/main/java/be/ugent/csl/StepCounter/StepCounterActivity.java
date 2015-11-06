@@ -42,8 +42,7 @@ public class StepCounterActivity extends Activity {
 	
 	private static final boolean USE_SERVICE = false; 
 	
-	/* ======================================================
-	/* UI items. You will need to attach these to the corresponding 
+	/* UI items. You will need to attach these to the corresponding
 	 * item in the main.xml layout you defined. Note that it is
 	 * not necessary for these variables to be declared here, they
 	 * could also be declared e.g., in the onCreate() method, IF 
@@ -78,52 +77,42 @@ public class StepCounterActivity extends Activity {
 	 */
 	private boolean accellMeterServiceBound = false;
 
-	private ServiceConnection accellMeterServiceConnection = new ServiceConnection()
-	{
-		public void onServiceConnected(ComponentName className, IBinder service)
-		{
+	private ServiceConnection accellMeterServiceConnection = new ServiceConnection() {
+		public void onServiceConnected(ComponentName className, IBinder service) {
 			Util.get().setService(((AccellMeterService.LocalBinder)service).getService());
 			Log.i(Util.TAG, "Service connection established");
 		}
 
-		public void onServiceDisconnected(ComponentName className)
-		{
+		public void onServiceDisconnected(ComponentName className) {
 			Util.get().setService(null);			
 			Log.i(Util.TAG, "Service connection removed");
 		}
-
 	};
 
-	public void onDestroy()
-	{
-		if(USE_SERVICE)
-		{
+	public void onDestroy() {
+		if (USE_SERVICE) {
 	    	/* take down the service */
-	    	if(accellMeterServiceBound)
-	    		unbindService(accellMeterServiceConnection);
-	    	
-	    	stopService(new Intent(this, AccellMeterService.class));
+			if (accellMeterServiceBound)
+				unbindService(accellMeterServiceConnection);
+
+			stopService(new Intent(this, AccellMeterService.class));
 		}
- 
-    	super.onDestroy();
-    }   	
-	
-    /* ====================================================================
-     * This function is called when the activity is created.
+
+		super.onDestroy();
+	}
+
+     /* This function is called when the activity is created.
      * 
      * Here, you need to add code for several things.
      */
     @Override
-    public void onCreate(Bundle savedInstanceState)
-    {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        
         /* We indicate here that we will be using the layout defined in main.xml
          * which has been translated into R.java.
          */
         setContentView(R.layout.main);
-        
-        /* ============================================================== */
+
         /* PRACTICUM 3.
          * Opgave 2: a. Geef deze widgets een gepaste waarde door te refereren
          *              naar de juiste ID's uit de layout.
@@ -137,36 +126,36 @@ public class StepCounterActivity extends Activity {
         
         /* buttons */
         /* the closing button */
-        quitButton = null; // FIXME
+        quitButton = (Button)findViewById(R.id.quit);
+		/* programma afsluiten*/
+		quitButton.setOnClickListener(
+				new View.OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						finish();
+					}
+				}
+		);
         
        	/* The log button */
-       	logButton = null; //FIXME
+       	logButton = (Button)findViewById(R.id.logButton);
        	/* The clear-the-trace-file button */
-       	clearButton = null; //FIXME
+       	clearButton = (Button)findViewById(R.id.clearButton);
 
-        /* ============================================================== */
        	/* Checkboxes */
-       	logDataCheckBox = null; //FIXME
+       	logDataCheckBox = (CheckBox)findViewById(R.id.logDataCheckBox);
 
-        /* ============================================================== */
         /* Text Views */
-        sampleRateText = null; //FIXME
-        traceLinesText = null; //FIXME
-        numberOfStepsText = null; //FIXME
-       	
-        /* ============================================================== */
+        sampleRateText = (TextView)findViewById(R.id.sampleRateText);
+        traceLinesText = (TextView)findViewById(R.id.traceLinesText);
+        numberOfStepsText = (TextView)findViewById(R.id.numberOfStepsText);
+
         /* Input field for the message */
-        messageEditText = null; //FIXME
+        messageEditText = (EditText)findViewById(R.id.messageEditText);
         
-        /* ============================================================== */
         /* seekbar */
-        rateMultiplierBar = null; //FIXME
-        
-        
-        /* Einde van opgave 2 */
-        /* ============================================================== */
-        
-        /* ============================================================== */
+        rateMultiplierBar = (SeekBar)findViewById(R.id.rateMultiplierBar);
+
         /* Drop down menu */
         detectorSpinner = (Spinner) findViewById(R.id.detectorList);
         ArrayAdapter<CharSequence> detectorAdapter = ArrayAdapter.createFromResource(this, R.array.detector_array, android.R.layout.simple_spinner_item);
@@ -182,7 +171,7 @@ public class StepCounterActivity extends Activity {
 
 			public void onNothingSelected(AdapterView<?> arg0)
 			{
-				// TODO Auto-generated method stub	
+				// TODO Auto-generated method stub
 			}
         	
         });
