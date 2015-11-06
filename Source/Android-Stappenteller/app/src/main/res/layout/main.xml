@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="fill_parent" 
               android:layout_height="fill_parent"
               android:orientation="vertical" android:weightSum="1">
@@ -18,9 +18,89 @@
     <Spinner android:id="@+id/detectorList"
               android:layout_width="fill_parent"
               android:layout_height="wrap_content"
-              android:prompt="@string/detector_prompt" />                       
-    <Button android:id="@+id/quit" 
-            android:text="Quit" 
-            android:layout_width="wrap_content" 
-            android:layout_height="wrap_content" />
-</LinearLayout>
+              android:prompt="@string/detector_prompt"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="0dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="0dp" />
+
+    <Button android:id="@+id/quit"
+            android:text="Quit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+        android:layout_below="@+id/detectorList"
+        android:layout_alignParentLeft="true" />
+
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="0dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="261dp"
+        android:id="@+id/linearLayout"
+        android:weightSum="1">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="77dp"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="AANTAL STAPPEN"
+            android:id="@+id/numberOfStepsText" />
+    </LinearLayout>
+
+    <Button
+    style="?android:attr/buttonStyleSmall"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Log"
+    android:id="@+id/logButton"
+        android:layout_alignTop="@+id/clearButton"
+        android:layout_alignParentRight="true"
+        android:layout_alignBottom="@+id/clearButton" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="CLEAR"
+        android:id="@+id/clearButton"
+        android:layout_below="@+id/detectorList"
+        android:layout_centerHorizontal="true"
+        android:layout_alignBottom="@+id/quit" />
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Log data"
+        android:id="@+id/logDataCheckBox"
+        android:layout_above="@+id/sampleRateText"
+        android:layout_alignParentLeft="true" />
+
+    <SeekBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/rateMultiplierBar"
+        android:layout_alignParentBottom="true"
+        android:layout_toLeftOf="@+id/logButton"
+        android:layout_toRightOf="@+id/quit" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/sampleRateText"
+        android:layout_above="@+id/rateMultiplierBar"
+        android:layout_centerHorizontal="true"
+        android:text="sample rate" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/messageEditText"
+        android:layout_alignLeft="@+id/sampleRateText"
+        android:layout_toLeftOf="@+id/logButton"
+        android:layout_alignTop="@+id/logDataCheckBox" />
+
+</RelativeLayout>
