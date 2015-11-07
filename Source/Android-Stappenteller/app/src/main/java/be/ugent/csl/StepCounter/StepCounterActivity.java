@@ -11,9 +11,9 @@ import android.content.ServiceConnection;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
-import android.speech.tts.TextToSpeech;
 import android.util.Log;
-import android.view.DragEvent;
+import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
@@ -69,13 +69,13 @@ public class StepCounterActivity extends Activity {
 	private Spinner detectorSpinner;
 	
 	/* text fields */
-	private TextView sampleRateText2;
+	private TextView sampleRateText;
 	private TextView traceLinesText;
 	private TextView numberOfStepsText;
+	private TextView numberOfStepsText2;
 	
 	/* message input field */
 	private EditText messageEditText;
-	private EditText sampleRateText;
 
 	/*
 	 * Interaction with the Service that gathers sensor data.
@@ -133,7 +133,8 @@ public class StepCounterActivity extends Activity {
         /* buttons */
         /* the closing button */
         quitButton = (Button)findViewById(R.id.quit);
-		/* programma afsluiten*/
+
+		// programma afsluiten
 		quitButton.setOnClickListener(
 				new View.OnClickListener() {
 					@Override
@@ -145,66 +146,91 @@ public class StepCounterActivity extends Activity {
         
        	/* The log button */
        	logButton = (Button)findViewById(R.id.logButton);
+
        	/* The clear-the-trace-file button */
-       	clearButton = (Button)findViewById(R.id.clearButton);
+		clearButton = (Button)findViewById(R.id.clearButton);
 
        	/* Checkboxes */
        	logDataCheckBox = (CheckBox)findViewById(R.id.logDataCheckBox);
 
         /* Text Views */
-        sampleRateText2 = (TextView)findViewById(R.id.sampleRateText2);
-        traceLinesText = (TextView)findViewById(R.id.traceLinesText);
-        numberOfStepsText = (TextView)findViewById(R.id.numberOfStepsText);
+        sampleRateText = (TextView)findViewById(R.id.sampleRateText);
+
+		traceLinesText = (TextView)findViewById(R.id.traceLinesText);
+
+		numberOfStepsText = (TextView)findViewById(R.id.numberOfStepsText);
+		numberOfStepsText2 = (TextView)findViewById(R.id.numberOfStepsText2);
 
         /* Input field for the message */
         messageEditText = (EditText)findViewById(R.id.messageEditText);
-        sampleRateText = (EditText)findViewById(R.id.sampleRateText);
+
+		messageEditText.setOnClickListener(
+				new View.OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						messageEditText.setText("");
+					}
+				}
+		);
+
+		messageEditText.setOnEditorActionListener(
+				new TextView.OnEditorActionListener() {
+					@Override
+					public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+						String message = "Your message was: " + messageEditText.getText();
+						messageEditText.setText(message);
+						return false;
+					}
+				}
+		);
 
         /* seekbar */
         rateMultiplierBar = (SeekBar)findViewById(R.id.rateMultiplierBar);
 
-		sampleRateText2.setText("Normal");
+		rateMultiplierBar.setProgress(0);
+		sampleRateText.setText("Normal: 5 Hz");
+
 		rateMultiplierBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 			@Override
 			public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
 				String s;
 				switch ((int) rateMultiplierBar.getProgress()) {
 					case 0:
-						s = "Normal";
+						s = "Normal: 5 Hz";
 						break;
 					case 1:
-						s = "UI";
+						s = "UI: 15 Hz";
 						break;
 					case 2:
-						s = "Game";
+						s = "Game 50 Hz";
 						break;
 					case 3:
-						s = "Fastest";
+						s = "Fastest: 100 Hz";
 						break;
 					default:
-						s = "Normal";
+						s = "Normal: 5 Hz";
 				}
-				sampleRateText2.setText(s);
+				sampleRateText.setText(s);
 			}
 
 			@Override
 			public void onStartTrackingTouch(SeekBar seekBar) {
-
+				// animation on sampleRateText?
 			}
 
 			@Override
 			public void onStopTrackingTouch(SeekBar seekBar) {
-
+				// animation on sampleRateText?
 			}
 		});
 
         /* Drop down menu */
         detectorSpinner = (Spinner) findViewById(R.id.detectorList);
+
         ArrayAdapter<CharSequence> detectorAdapter = ArrayAdapter.createFromResource(this, R.array.detector_array, android.R.layout.simple_spinner_item);
         detectorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         detectorSpinner.setAdapter(detectorAdapter);
-        detectorSpinner.setOnItemSelectedListener(new OnItemSelectedListener()
-        {
+        detectorSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
 			public void onItemSelected(AdapterView<?> parent, View view, int pos, long id)
 			{
 				String detectorName = parent.getItemAtPosition(pos).toString();
@@ -215,11 +241,9 @@ public class StepCounterActivity extends Activity {
 			{
 				// TODO Auto-generated method stub
 			}
-
         });
 
-        if(USE_SERVICE)
-        {
+        if(USE_SERVICE) {
 	       	/*
 	       	 * This binds the service that obtains sensor data
 	       	 */

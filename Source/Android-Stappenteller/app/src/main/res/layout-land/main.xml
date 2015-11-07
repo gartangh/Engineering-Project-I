@@ -43,7 +43,7 @@
     android:text="Log"
     android:id="@+id/logButton"
         android:layout_alignTop="@+id/clearButton"
-        android:layout_alignLeft="@+id/messageEditText" />
+        android:layout_toRightOf="@+id/numberOfStepsText2" />
 
     <Button
         style="?android:attr/buttonStyleSmall"
@@ -51,15 +51,17 @@
         android:layout_height="wrap_content"
         android:text="Clear"
         android:id="@+id/clearButton"
-        android:layout_above="@+id/logDataCheckBox"
-        android:layout_alignRight="@+id/traceLinesText" />
+        android:layout_below="@+id/quit"
+        android:layout_alignParentRight="true" />
     <CheckBox
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Log Data"
         android:id="@+id/logDataCheckBox"
-        android:layout_above="@+id/rateMultiplierBar"
-        android:layout_centerHorizontal="true" />
+        android:layout_below="@+id/clearButton"
+        android:layout_toLeftOf="@+id/clearButton"
+        android:layout_marginRight="43dp"
+        android:layout_marginTop="28dp" />
 
     <SeekBar
         android:layout_width="wrap_content"
@@ -68,18 +70,18 @@
         android:indeterminate="false"
         android:max="3"
         android:progress="2"
-        android:layout_above="@+id/sampleRateText"
-        android:layout_toLeftOf="@+id/clearButton"
-        android:layout_toRightOf="@+id/logButton" />
+        android:layout_below="@+id/logDataCheckBox"
+        android:layout_alignParentRight="true"
+        android:layout_toRightOf="@+id/numberOfStepsText2" />
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/messageEditText"
         android:text="Message"
-        android:layout_above="@+id/logButton"
-        android:layout_alignParentLeft="true"
-        android:layout_alignRight="@+id/clearButton" />
+        android:layout_alignTop="@+id/traceLinesText"
+        android:layout_toRightOf="@+id/traceLinesText"
+        android:layout_alignParentRight="true" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -87,38 +89,35 @@
         android:id="@+id/traceLinesText"
         android:text="Trace Lines"
         android:longClickable="false"
-        android:layout_alignTop="@+id/quit"
-        android:layout_alignParentRight="true" />
+        android:layout_above="@+id/numberOfStepsText2"
+        android:layout_toLeftOf="@+id/logButton" />
 
     <TextView
         android:layout_width="298dp"
         android:layout_height="112dp"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Number Of Steps:"
+        android:text="Number Of Steps"
         android:id="@+id/numberOfStepsText2"
-        android:layout_below="@+id/quit"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_above="@+id/messageEditText" />
+        android:layout_below="@+id/quit" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Sample Rate"
         android:id="@+id/sampleRateText"
-        android:layout_marginBottom="28dp"
         android:singleLine="false"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_below="@+id/rateMultiplierBar"
+        android:layout_alignRight="@+id/logDataCheckBox" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="101"
         android:id="@+id/numberOfStepsText"
         android:textSize="64dp"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_alignBottom="@+id/rateMultiplierBar"
+        android:layout_toLeftOf="@+id/traceLinesText" />
 
 </RelativeLayout>

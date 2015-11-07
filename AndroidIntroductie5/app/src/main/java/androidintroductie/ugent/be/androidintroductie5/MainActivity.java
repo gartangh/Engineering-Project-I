@@ -17,6 +17,7 @@ public class MainActivity extends AppCompatActivity {
 
         naamInvoer = (EditText) findViewById(R.id.naamInvoer);
         halloNaam = (TextView) findViewById(R.id.halloNaam);
+
         halloNaam.setText("Hello!");
 
         naamInvoer.setOnEditorActionListener(
