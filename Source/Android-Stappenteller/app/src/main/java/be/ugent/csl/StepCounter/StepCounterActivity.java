@@ -177,7 +177,7 @@ public class StepCounterActivity extends Activity {
 				new TextView.OnEditorActionListener() {
 					@Override
 					public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-						String message = "Your message was: " + messageEditText.getText();
+						String message = "Your message:\n" + messageEditText.getText();
 						messageEditText.setText(message);
 						return false;
 					}
