@@ -33,7 +33,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
         android:layout_below="@+id/detectorList"
-        android:layout_alignParentLeft="true" />
+        android:layout_alignParentLeft="true"
+        android:textSize="32dp" />
 
 
     <Button
@@ -43,7 +44,8 @@
     android:text="Log"
     android:id="@+id/logButton"
         android:layout_alignTop="@+id/clearButton"
-        android:layout_alignLeft="@+id/messageEditText" />
+        android:layout_alignLeft="@+id/messageEditText"
+        android:textSize="32dp" />
 
     <Button
         style="?android:attr/buttonStyleSmall"
@@ -51,15 +53,20 @@
         android:layout_height="wrap_content"
         android:text="Clear"
         android:id="@+id/clearButton"
+        android:textSize="32dp"
         android:layout_above="@+id/logDataCheckBox"
-        android:layout_alignRight="@+id/traceLinesText" />
+        android:layout_alignParentRight="true" />
     <CheckBox
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Log Data"
         android:id="@+id/logDataCheckBox"
+        android:textSize="16dp"
         android:layout_above="@+id/rateMultiplierBar"
-        android:layout_centerHorizontal="true" />
+        android:layout_toLeftOf="@+id/clearButton"
+        android:layout_toRightOf="@+id/logButton"
+        android:checked="false"
+        android:clickable="true" />
 
     <SeekBar
         android:layout_width="wrap_content"
@@ -79,37 +86,19 @@
         android:text="Message"
         android:layout_above="@+id/logButton"
         android:layout_alignParentLeft="true"
-        android:layout_alignRight="@+id/clearButton" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/traceLinesText"
-        android:text="Trace Lines"
-        android:longClickable="false"
-        android:layout_alignTop="@+id/quit"
-        android:layout_alignParentRight="true" />
-
-    <TextView
-        android:layout_width="298dp"
-        android:layout_height="112dp"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Number Of Steps:"
-        android:id="@+id/numberOfStepsText2"
-        android:layout_below="@+id/quit"
-        android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
-        android:layout_above="@+id/messageEditText" />
+        android:textSize="32dp" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Sample Rate"
         android:id="@+id/sampleRateText"
-        android:layout_marginBottom="28dp"
         android:singleLine="false"
+        android:textSize="16dp"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_toRightOf="@+id/quit"
+        android:layout_alignRight="@+id/rateMultiplierBar" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -118,7 +107,28 @@
         android:text="102"
         android:id="@+id/numberOfStepsText"
         android:textSize="64dp"
-        android:layout_centerVertical="true"
+        android:layout_below="@+id/numberOfStepsText2"
         android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Trace Lines"
+        android:id="@+id/traceLinesText"
+        android:layout_alignBottom="@+id/quit"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/quit"
+        android:textSize="32dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Number Of Steps"
+        android:id="@+id/numberOfStepsText2"
+        android:layout_below="@+id/quit"
+        android:layout_alignParentLeft="true"
+        android:textSize="32dp"
+        android:layout_alignParentRight="true" />
 
 </RelativeLayout>

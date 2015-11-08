@@ -20,6 +20,7 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.Spinner;
@@ -99,10 +100,8 @@ public class StepCounterActivity extends Activity {
 	    	/* take down the service */
 			if (accellMeterServiceBound)
 				unbindService(accellMeterServiceConnection);
-
 			stopService(new Intent(this, AccellMeterService.class));
 		}
-
 		super.onDestroy();
 	}
 
@@ -130,11 +129,11 @@ public class StepCounterActivity extends Activity {
          *              implementeert.
          */
         
-        /* buttons */
-        /* the closing button */
+        /* Buttons */
+        /* The closing button */
         quitButton = (Button)findViewById(R.id.quit);
 
-		// programma afsluiten
+		// Close program
 		quitButton.setOnClickListener(
 				new View.OnClickListener() {
 					@Override
@@ -143,27 +142,58 @@ public class StepCounterActivity extends Activity {
 					}
 				}
 		);
-        
+
        	/* The log button */
        	logButton = (Button)findViewById(R.id.logButton);
 
-       	/* The clear-the-trace-file button */
-		clearButton = (Button)findViewById(R.id.clearButton);
+		// Save logbook
+       	logButton.setOnClickListener(
+				new View.OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						// Command
+
+					}
+				}
+		);
 
        	/* Checkboxes */
        	logDataCheckBox = (CheckBox)findViewById(R.id.logDataCheckBox);
+		boolean check = logDataCheckBox.isChecked();
+		/*if (check = true) {
+			logDataCheckBox.setText("Log Data ON");
+		} else {
+			// Bug! Text won't change to: Log Data OFF
+			logDataCheckBox.setText("Log Data OFF");
+		}*/
 
+		// Start or stop logging data
+		logDataCheckBox.setOnCheckedChangeListener(
+				new CompoundButton.OnCheckedChangeListener() {
+					@Override
+					public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+						boolean check = logDataCheckBox.isChecked();
+						if (check) {
+							logDataCheckBox.setText("Log Data ON");
+						} else {
+							// Bug! Text won't change to: Log Data OFF
+							logDataCheckBox.setText("Log Data OFF");
+						}
+					}
+				}
+		);
         /* Text Views */
-        sampleRateText = (TextView)findViewById(R.id.sampleRateText);
-
+		sampleRateText = (TextView) findViewById(R.id.sampleRateText);
 		traceLinesText = (TextView)findViewById(R.id.traceLinesText);
-
+		// Shows amount of steps taken
 		numberOfStepsText = (TextView)findViewById(R.id.numberOfStepsText);
+		// Displays: Number Of Steps
 		numberOfStepsText2 = (TextView)findViewById(R.id.numberOfStepsText2);
 
         /* Input field for the message */
         messageEditText = (EditText)findViewById(R.id.messageEditText);
 
+		// Message disapears when clicked
 		messageEditText.setOnClickListener(
 				new View.OnClickListener() {
 					@Override
@@ -173,6 +203,7 @@ public class StepCounterActivity extends Activity {
 				}
 		);
 
+		// message is shown after: your message:
 		messageEditText.setOnEditorActionListener(
 				new TextView.OnEditorActionListener() {
 					@Override
@@ -188,7 +219,7 @@ public class StepCounterActivity extends Activity {
         rateMultiplierBar = (SeekBar)findViewById(R.id.rateMultiplierBar);
 
 		rateMultiplierBar.setProgress(0);
-		sampleRateText.setText("Normal: 5 Hz");
+		sampleRateText.setText("Sample Rate");
 
 		rateMultiplierBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 			@Override
