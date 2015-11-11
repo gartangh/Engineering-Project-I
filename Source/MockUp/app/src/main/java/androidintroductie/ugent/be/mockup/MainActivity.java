@@ -27,14 +27,10 @@ public class MainActivity extends AppCompatActivity {
 
         // "Number of steps"
         textView = (TextView) findViewById(R.id.textView);
-        // steps = number of steps taken today
-        // reset when 00:00;
         // Shows number of steps taken today
         textView2 = (TextView) findViewById(R.id.textView2);
-        final int steps = 101;
         // Shows average steps taken each day
         textView3 = (TextView) findViewById(R.id.textView3);
-        // average = total/days
         // Displays an anecdote
         textView4 = (TextView) findViewById(R.id.textView4);
         // Shows target, reached or not, how many steps to take till target and lets the user edit the target
@@ -55,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Pick a random anecdote on startup.
         textView4.setText(anecdote());
-
+        // Pick a random anecdote when clicked.
         textView4.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
@@ -65,6 +61,51 @@ public class MainActivity extends AppCompatActivity {
                 }
         );
 
+        //int steps = 0;
+        // Track a step
+        /*
+                step++;
+                total++;
+        */
+        // For the moment
+        final int steps = 10200;
+        String steps2 = String.valueOf(steps);
+        if (steps < 1000) {
+            textView2.setText(steps2);
+            textView2.setTextSize(128);
+        } else if (steps < 10000) {
+            textView2.setText(steps2.substring(0, steps2.length() - 3) + "," + steps2.substring(steps2.length() - 3));
+            textView2.setTextSize(110);
+        } else {
+            textView2.setText(steps2.substring(0, steps2.length() - 3) + "," + steps2.substring(steps2.length() - 3));
+            textView2.setTextSize(92);
+        }
+
+        // Calculate km
+        textView7.setText((int)(steps * 0.75) / 1000.000 + "km");
+        // Calculate kCal
+        textView8.setText((steps * 30) / 1000.0 + "kCal");
+
+        // For the moment
+        int total = 1234567;
+        String total2 = String.valueOf(total);
+        if (total < 1000) {
+            textView6.setText("Total " + total2);
+        } else if (total < 1000000) {
+            textView6.setText("Total " + total2.substring(0, total2.length() - 3) + "," + total2.substring(total2.length() - 3));
+        } else {
+            String textView6Text = "Total " + total2.substring(0, total2.length() - 6) + "," + total2.substring(total2.length() - 6, total2.length() - 3) + "," + total2.substring(total2.length() - 3);
+            textView6.setText(textView6Text);
+        }
+
+        // final target = (int)editText.getText();
+        /*while (target <100 || target > 100000) {
+            final target = (int)editText.getText();
+          }*/
+        // For the moment:
+        final int target = 5000;
+        textView5.setText("Your target is " + target + " steps, still " + (target - steps) + " to go! Press on the inputfield to edit your goal.");
+
         editText.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
@@ -73,12 +114,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
         );
-        // final target = (int)editText.getText();
-        /*while (target <100 || target > 100000) {
-            final target = (int)editText.getText();
-          }*/
-        // For the moment:
-        final int target = 500;
+
         editText.setOnEditorActionListener(
                 new TextView.OnEditorActionListener() {
                     @Override
@@ -97,6 +133,23 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
         );
+        //int days = 0;
+        // When 00:00 o'clock;
+        /*
+        steps = 0;
+        days++;
+         */
+        // For the moment
+        int days = 356;
+        int average = (int)(total * 1.0 / days);
+        String average2 = String.valueOf(average);
+        if (average < 1000) {
+            textView3.setText("Average " + average2);
+        } else if (average < 1000000){
+            textView3.setText("Average " + average2.substring(0, average2.length() - 3) + "," + average2.substring(average2.length() - 3));
+        } else {
+            textView3.setText("Average " + average2.substring(0, average2.length() - 6) + "," + average2.substring(average2.length() - 6, average2.length() - 3) + "," + average2.substring(average2.length()- 3));
+        }
     }
 
     public static String anecdote() {
