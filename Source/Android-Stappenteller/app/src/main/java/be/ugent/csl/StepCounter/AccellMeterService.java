@@ -25,8 +25,8 @@ public class AccellMeterService extends Service implements SensorEventListener  
 	 */
     private LocalBinder accellBinder = new LocalBinder();
     
-	/* 
-	 * Sensor objects 
+	/*
+	 * Sensor objects
 	 */
 	private SensorManager mSensorManager;
 	private Sensor mAccellSensor;
@@ -40,7 +40,6 @@ public class AccellMeterService extends Service implements SensorEventListener  
 	
 	@Override 
 	public void onCreate() {
-	
 		super.onCreate();
 
 		/*
@@ -52,7 +51,7 @@ public class AccellMeterService extends Service implements SensorEventListener  
 		* klasse.
 		*/
 		mSensorManager = (SensorManager)getSystemService(SENSOR_SERVICE); // TODO
-		//mAccellSensor = (Sensor)getSystemService(); // TODO
+		mAccellSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER); // TODO
 	}
 	
     @Override
@@ -84,18 +83,15 @@ public class AccellMeterService extends Service implements SensorEventListener  
     }
     
     @Override
-    public void onDestroy()
-    {
+    public void onDestroy() {
     	mSensorManager.unregisterListener(this, mAccellSensor);    	
     	super.onDestroy();
     }
     
     public void onAccuracyChanged(Sensor sensor, int accuracy){}
 
-    public void onSensorChanged(SensorEvent event)
-    {
-    	if(event.sensor.getType() == Sensor.TYPE_ACCELEROMETER)
-    	{
+    public void onSensorChanged(SensorEvent event) {
+    	if(event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
 			/*
 			* Opgave 2: Zorg ervoor dat de gemeten data die je in
 			* het event-object terugvindt ook gelogd wordt door de
@@ -104,26 +100,22 @@ public class AccellMeterService extends Service implements SensorEventListener  
 			* van de velden in het event-object.
 			*/
     		// TODO
-
+			Util.get().gotSensorData(event.timestamp, event.values[0], event.values[1], event.values[2]);
     	}
 	}
 
-    public void setAccuracy(int accuracy)
-    {
+    public void setAccuracy(int accuracy) {
     	/* 
     	 * Unregister first, otherwise the listener keeps receiving 
     	 * data at the highest set rate.
     	 */
-    	synchronized(this)
-    	{
-    		if(registered)
-    		{
+    	synchronized(this) {
+    		if(registered) {
     			mSensorManager.unregisterListener(this, mAccellSensor);
     			registered = false;
     		}
     	   	
-    		if(mSensorManager.registerListener(this, mAccellSensor, accuracy))
-    		{
+    		if(mSensorManager.registerListener(this, mAccellSensor, accuracy)) {
     	   		Log.i(TAG, "Sensor accuracy set to " + accuracy);
     	   		registered = true;
     	   	}

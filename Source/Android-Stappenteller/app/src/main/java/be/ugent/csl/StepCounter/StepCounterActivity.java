@@ -45,7 +45,7 @@ public class StepCounterActivity extends Activity {
 	
 	public static final String TAG = StepCounterActivity.class.getName();
 	
-	private static final boolean USE_SERVICE = false; 
+	private static final boolean USE_SERVICE = false;
 	
 	/* UI items. You will need to attach these to the corresponding
 	 * item in the main.xml layout you defined. Note that it is
@@ -59,7 +59,7 @@ public class StepCounterActivity extends Activity {
 	private Button quitButton;
 	private Button logButton;
 	private Button clearButton;
-	
+
 	/* checkboxes */
     private CheckBox logDataCheckBox;
     
@@ -143,45 +143,47 @@ public class StepCounterActivity extends Activity {
 				}
 		);
 
-       	/* The log button */
-       	logButton = (Button)findViewById(R.id.logButton);
-
-		// Save logbook
-       	logButton.setOnClickListener(
+		clearButton = (Button)findViewById(R.id.clearButton);
+		clearButton.setOnClickListener(
 				new View.OnClickListener() {
 					@Override
 					public void onClick(View v) {
-						// Command
+						Util.get().getLogger().clearLogFile();
+					}
+				}
+		);
 
+       	/* The log button */
+       	logButton = (Button)findViewById(R.id.logButton);
+		logButton.setOnClickListener(
+				new View.OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						Util.get().getLogger().setLogPrefix(messageEditText.getText().toString());
 					}
 				}
 		);
 
        	/* Checkboxes */
        	logDataCheckBox = (CheckBox)findViewById(R.id.logDataCheckBox);
-		boolean check = logDataCheckBox.isChecked();
-		/*if (check = true) {
-			logDataCheckBox.setText("Log Data ON");
-		} else {
-			// Bug! Text won't change to: Log Data OFF
-			logDataCheckBox.setText("Log Data OFF");
-		}*/
 
 		// Start or stop logging data
 		logDataCheckBox.setOnCheckedChangeListener(
 				new CompoundButton.OnCheckedChangeListener() {
 					@Override
 					public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-						boolean check = logDataCheckBox.isChecked();
-						if (check) {
+						if (isChecked) {
+							Log.i(Util.TAG, "Log Data ON");
 							logDataCheckBox.setText("Log Data ON");
 						} else {
-							// Bug! Text won't change to: Log Data OFF
+							Log.i(Util.TAG, "Log Data OFF");
 							logDataCheckBox.setText("Log Data OFF");
 						}
+						Util.get().getLogger().setLogging(isChecked);
 					}
 				}
 		);
+
         /* Text Views */
 		sampleRateText = (TextView) findViewById(R.id.sampleRateText);
 		traceLinesText = (TextView)findViewById(R.id.traceLinesText);
@@ -228,15 +230,19 @@ public class StepCounterActivity extends Activity {
 				switch ((int) rateMultiplierBar.getProgress()) {
 					case 0:
 						s = "Normal: 5 Hz";
+						Util.get().setRate(SampleRate.NORMAL);
 						break;
 					case 1:
 						s = "UI: 15 Hz";
+						Util.get().setRate(SampleRate.UI);
 						break;
 					case 2:
 						s = "Game 50 Hz";
+						Util.get().setRate(SampleRate.GAME);
 						break;
 					case 3:
 						s = "Fastest: 100 Hz";
+						Util.get().setRate(SampleRate.FASTEST);
 						break;
 					default:
 						s = "Normal: 5 Hz";
@@ -262,14 +268,12 @@ public class StepCounterActivity extends Activity {
         detectorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         detectorSpinner.setAdapter(detectorAdapter);
         detectorSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
-			public void onItemSelected(AdapterView<?> parent, View view, int pos, long id)
-			{
+			public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
 				String detectorName = parent.getItemAtPosition(pos).toString();
 				Util.get().setStepDetector(detectorName);
 			}
 
-			public void onNothingSelected(AdapterView<?> arg0)
-			{
+			public void onNothingSelected(AdapterView<?> arg0) {
 				// TODO Auto-generated method stub
 			}
         });
@@ -291,11 +295,9 @@ public class StepCounterActivity extends Activity {
 		IntentFilter filter = new IntentFilter();
 		filter.addAction("be.ugent.csl.StepCounterIntent");
 
-		BroadcastReceiver receiver = new BroadcastReceiver()
-		{
+		BroadcastReceiver receiver = new BroadcastReceiver() {
 			@Override
-			public void onReceive(Context context, Intent intent)
-			{
+			public void onReceive(Context context, Intent intent) {
 				/*
 				 * Opgave: verwerk hier de intent en stel het aantal stappen in.
 				 */

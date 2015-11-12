@@ -15,8 +15,7 @@ import android.util.Log;
  * @author Christophe Foket
  */
 
-public class DataLogger
-{
+public class DataLogger {
 	private static final String TAG = DataLogger.class.getName();
 	
 	private static final char FIELD_SEPARATOR = ',';
@@ -36,8 +35,7 @@ public class DataLogger
 	
 	private boolean logging;
 	
-	public DataLogger(File logDirectory, String logFileName)
-	{
+	public DataLogger(File logDirectory, String logFileName) {
 		this.logDirectory = logDirectory;
 		this.logFileName = logFileName;
 		
@@ -48,41 +46,33 @@ public class DataLogger
 		clearLogFile();
 	}
 	
-	public void setLogging(boolean logging)
-	{
+	public void setLogging(boolean logging) {
 		this.logging = logging;
 	}
 	
-	public void setLogPrefix(String logPrefix)
-	{
+	public void setLogPrefix(String logPrefix) {
 		this.logPrefix = logPrefix;
 	}
 	
-	public void clearLogFile()
-	{
-		try
-		{
+	public void clearLogFile() {
+		try {
 			File logFile = new File(logDirectory, logFileName);
 			writer = new BufferedWriter(new FileWriter(logFile, false));
 		}
-		catch(IOException e)
-		{
+		catch(IOException e) {
 			Log.e(TAG, "IOException when opening a writer to " + logFileName, e);
 		}
 	}
 	
-	public void logData(String detector, String filterStep, Object value)
-	{
+	public void logData(String detector, String filterStep, Object value) {
 		fields.add(detector + "_" + filterStep);
 		currentData.add(value);
 	}
 
-	private void printTitleLine() throws IOException
-	{
+	private void printTitleLine() throws IOException {
 		StringBuffer buffer = new StringBuffer();
 	
-		for(String field : fields)
-		{
+		for(String field : fields) {
 			/* 
 			 * We replace spaces by underscores so that OpenOffice doesn't 
 			 * detect this as a new column by default.
@@ -95,8 +85,7 @@ public class DataLogger
 		writer.flush();
 	}
 	
-	private void printDataLine() throws IOException
-	{
+	private void printDataLine() throws IOException {
 		StringBuffer buffer = new StringBuffer();
 		
 		for(Object datum : currentData)
@@ -107,30 +96,23 @@ public class DataLogger
 		writer.flush();
 	}
 	
-	public void flushLine()
-	{
-		if(logging)
-		{
-			try
-			{
-				if (!printedTitleLine)
-				{
+	public void flushLine() {
+		if(logging) {
+			try {
+				if (!printedTitleLine) {
 					printTitleLine();
 					printedTitleLine = true;
 				}
-				
 				printDataLine();
-				
 			}
 			catch(IOException e){}
 		}
-				
+
 		fields.clear();
 		currentData.clear();
 	}
 
-	public void logSensorData(long timestamp, double x, double y, double z)
-	{
+	public void logSensorData(long timestamp, double x, double y, double z) {
 		logData("raw", "prefix", logPrefix == null ? " " : logPrefix);
 		logData("raw", "time", timestamp);
 		logData("raw", "x", x);
