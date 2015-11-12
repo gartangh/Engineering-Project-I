@@ -18,8 +18,7 @@ import android.os.Environment;
  * @author Andy Georges
  * @author Christophe Foket
  */
-public class Util
-{
+public class Util {
 	/* 
 	 * TAG serves as a tag in the log files so we can easily see who is 
 	 * responsible for a given entry in the log files. 
@@ -60,8 +59,7 @@ public class Util
 	 * for the instance that has been created at class initialization 
 	 * time, through the get method.
 	 */
-	private Util()
-	{
+	private Util() {
 		logger = new DataLogger(Environment.getExternalStorageDirectory(), TRACE_FILE_NAME);
 		detectors = new HashMap<String, StepDetector>();
 		
@@ -71,8 +69,7 @@ public class Util
 		// TODO
 	}
 
-	public static Util get()
-	{
+	public static Util get() {
 		return instance;
 	}
 	
@@ -81,58 +78,49 @@ public class Util
 		return currentDetector;
 	}
 	
-	public void setStepDetector(String s)
-	{
+	public void setStepDetector(String s) {
 		StepDetector d = detectors.get(s); 
 	
 		if(d != null)
 			currentDetector = d;
 	}
 
-	private void addDetector(StepDetector detector)
-	{
+	private void addDetector(StepDetector detector) {
 		detectors.put(detector.getName(), detector);
 		detector.setDataLogger(getLogger());
 	}
 	
-	public DataLogger getLogger()
-	{
+	public DataLogger getLogger() {
 		return logger;
 	}
 	
-	public void setRate(SampleRate sampleRate)
-	{
+	public void setRate(SampleRate sampleRate) {
 		this.sampleRate = sampleRate;
 
     	if(accellMeterService != null)
     		accellMeterService.setAccuracy(sampleRate.getAccuracy());
 	}
 	
-	public SampleRate getRate()
-	{
+	public SampleRate getRate() {
 		return sampleRate;
 	}
 
-    public void setService(AccellMeterService s)
-    {
+    public void setService(AccellMeterService s) {
     	accellMeterService = s;
     	accellMeterService.setAccuracy(sampleRate.getAccuracy());
     }
     
-    public void gotSensorData(long timestamp, float x, float y, float z)
-    {
+    public void gotSensorData(long timestamp, float x, float y, float z) {
     	getLogger().logSensorData(timestamp, x, y, z);
     
     	for(StepDetector s : detectors.values())
     		s.addData(timestamp, x, y, z);
     	
-    	if(timestamp - lastEventTime > 500000000) // 0.5 s in nanos
-    	{
+    	if(timestamp - lastEventTime > 500000000) { // 0.5 s in nanos
     		Intent intent = new Intent("be.ugent.csl.StepCounterIntent");
     		accellMeterService.sendBroadcast(intent);
     		lastEventTime = timestamp;
     	}
-    	
-    	getLogger().flushLine();
+    	//getLogger().flushLine();
     }
 }
