@@ -173,7 +173,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private static String anecdote() {
-        int number = (int) (0.5 + Math.random() * 6);
+        int number = (int) (0.5 + Math.random() * 7);
         String s;
         switch(number) {
             case 0:
