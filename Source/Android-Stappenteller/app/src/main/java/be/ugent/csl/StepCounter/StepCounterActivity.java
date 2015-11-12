@@ -45,7 +45,7 @@ public class StepCounterActivity extends Activity {
 	
 	public static final String TAG = StepCounterActivity.class.getName();
 	
-	private static final boolean USE_SERVICE = false;
+	private static final boolean USE_SERVICE = true;
 	
 	/* UI items. You will need to attach these to the corresponding
 	 * item in the main.xml layout you defined. Note that it is
@@ -77,6 +77,8 @@ public class StepCounterActivity extends Activity {
 	
 	/* message input field */
 	private EditText messageEditText;
+
+	private int counter = 0;
 
 	/*
 	 * Interaction with the Service that gathers sensor data.
@@ -302,6 +304,9 @@ public class StepCounterActivity extends Activity {
 				 * Opgave: verwerk hier de intent en stel het aantal stappen in.
 				 */
 				// TODO
+				counter++;
+				numberOfStepsText.setText(String.valueOf(counter));
+
 			}
 		};
 		registerReceiver(receiver, filter);
