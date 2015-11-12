@@ -1,7 +1,6 @@
 package be.ugent.csl.StepCounter;
 
 import java.util.HashMap;
-
 import android.content.Intent;
 import android.os.Environment;
 

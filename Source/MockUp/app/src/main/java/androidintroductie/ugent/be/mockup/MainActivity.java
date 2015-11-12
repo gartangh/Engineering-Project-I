@@ -1,7 +1,10 @@
 package androidintroductie.ugent.be.mockup;
 
+import android.app.Notification;
+import android.app.NotificationManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.NotificationCompat;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
@@ -20,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView textView9;
     private EditText editText;
     private ProgressBar progressBar;
+    private int target = 1000;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,9 +41,8 @@ public class MainActivity extends AppCompatActivity {
         textView5 = (TextView) findViewById(R.id.textView5);
         // Shows progress in percent
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
-        // Shows total ammount of steps since install
+        // Shows total amount of steps since install
         textView6 = (TextView) findViewById(R.id.textView6);
-        // textView6.setText(textView6.getText() + dayDteps);
         // Shows amount of km
         textView7 = (TextView) findViewById(R.id.textView7);
         // Shows amount of kCal burnt
@@ -68,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
                 total++;
         */
         // For the moment
-        final int steps = 10200;
+        final int steps = 1020;
         String steps2 = String.valueOf(steps);
         if (steps < 1000) {
             textView2.setText(steps2);
@@ -98,13 +101,48 @@ public class MainActivity extends AppCompatActivity {
             textView6.setText(textView6Text);
         }
 
-        // final target = (int)editText.getText();
-        /*while (target <100 || target > 100000) {
-            final target = (int)editText.getText();
-          }*/
-        // For the moment:
-        final int target = 5000;
-        textView5.setText("Your target is " + target + " steps, still " + (target - steps) + " to go! Press on the inputfield to edit your goal.");
+        // Links text with target
+        int stepsComparedToTarget = target - steps;
+        if (stepsComparedToTarget <= 0) {
+            textView5.setText("Congratulations! You have reached your daily target of " + target + " steps!");
+            progressBar.setProgress(100);
+            // Notification (doesn't work jet)
+            Notify("Steps++ Target Reached","Congratulations! You have reached your daily target of " + target + " steps!");
+        } else {
+            textView5.setText("Your target is " + target + " steps, still " + (target - steps) + " to go! Press on the inputfield to edit your goal. (Your progress is shown in the pink bar below.)");
+            progressBar.setProgress((int) ((steps * 100.0) / target));
+        }
+
+        // Target >100 || target < 100000)
+        editText.setOnEditorActionListener(
+                new TextView.OnEditorActionListener() {
+                    @Override
+                    public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                        int input = Integer.parseInt(editText.getText().toString());
+                        if (input <= 100000 && input >= 100) {
+                            target = input;
+                            editText.setText(String.valueOf(target));
+                            int stepsComparedToTarget = target - steps;
+                            if (stepsComparedToTarget <= 0) {
+                                textView5.setText("Congratulations! You have reached your daily target of " + target + " steps!");
+                                progressBar.setProgress(100);
+                                // Notification (doesn't work jet)
+                                Notify("Steps++ Target Reached","Congratulations! You have reached your daily target of " + target + " steps!");
+                            } else {
+                                textView5.setText("Your target is " + target + " steps, still " + (target - steps) + " to go! Press on the inputfield to edit your goal. (Your progress is shown in the pink bar below.)");
+                                progressBar.setProgress((int) ((steps * 100.0) / target));
+                            }
+                        }
+                        return false;
+                    }
+                }
+        );
+
+        // Make a notificationbuilder
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this);
+
+        // Set percentage of progressbar
+        textView9.setText(progressBar.getProgress() + " %");
 
         editText.setOnClickListener(
                 new View.OnClickListener() {
@@ -115,24 +153,6 @@ public class MainActivity extends AppCompatActivity {
                 }
         );
 
-        editText.setOnEditorActionListener(
-                new TextView.OnEditorActionListener() {
-                    @Override
-                    public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                        String targetString = String.valueOf(target);
-                        editText.setText(targetString);
-                        int stepsComparedToTarget = target - steps;
-                        if (stepsComparedToTarget <= 0) {
-                            textView5.setText("Congratulations! You have reached your daily target of " + target + " steps!");
-                            progressBar.setProgress(100);
-                        } else {
-                            textView5.setText("Your target is " + target + " steps, still " + (target - steps) + " to go! Press on the inputfield to edit your goal.");
-                            progressBar.setProgress((int) ((steps * 100.0) / target));
-                        }
-                        return false;
-                    }
-                }
-        );
         //int days = 0;
         // When 00:00 o'clock;
         /*
@@ -152,7 +172,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public static String anecdote() {
+    private static String anecdote() {
         int number = (int) (0.5 + Math.random() * 6);
         String s;
         switch(number) {
@@ -184,5 +204,9 @@ public class MainActivity extends AppCompatActivity {
                 s = "anecdotes will be displayed here.";
         }
         return s;
+    }
+
+    private void Notify(String title, String message) {
+        NotificationManager notificationManager = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
     }
 }

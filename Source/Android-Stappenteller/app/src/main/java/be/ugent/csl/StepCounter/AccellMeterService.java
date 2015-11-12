@@ -1,6 +1,7 @@
 package be.ugent.csl.StepCounter;
 
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -50,8 +51,8 @@ public class AccellMeterService extends Service implements SensorEventListener  
 		* te vragen a.d.h.v. een waarde in een veld uit de Sensor
 		* klasse.
 		*/
-		mSensorManager = null; // TODO
-		mAccellSensor = null; // TODO
+		mSensorManager = (SensorManager)getSystemService(SENSOR_SERVICE); // TODO
+		//mAccellSensor = (Sensor)getSystemService(); // TODO
 	}
 	
     @Override
@@ -103,6 +104,7 @@ public class AccellMeterService extends Service implements SensorEventListener  
 			* van de velden in het event-object.
 			*/
     		// TODO
+
     	}
 	}
 
