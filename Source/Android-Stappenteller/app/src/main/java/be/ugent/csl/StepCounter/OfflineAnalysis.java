@@ -6,23 +6,19 @@ import java.io.FileReader;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class OfflineAnalysis
-{	
+public class OfflineAnalysis {
 	private static final Pattern fileNamePattern = Pattern.compile(".+-([0-9]+)\\.csv");
 		
-	private static StepDetector[] createDetectors()
-	{
+	private static StepDetector[] createDetectors() {
 		/*
 		 * Opgave: intialiseer hier de stappendetectors.
 		 */
-		return new StepDetector[]
-		{
+		return new StepDetector[]{
 			// TODO
 		};
 	}
 	
-	public static void main(String [] args)
-	{
+	public static void main(String [] args) {
 		if(args.length != 1)
 		{
 			System.err.println("You must provide a file or directory with the relevant data!");
@@ -43,8 +39,7 @@ public class OfflineAnalysis
 		}
 	}
 	
-	private static void runDetectors(StepDetector[] detectors, File csvFile)
-	{
+	private static void runDetectors(StepDetector[] detectors, File csvFile) {
 		String fileName = csvFile.getName();
 		
 		if(fileName.endsWith(".csv") && !fileName.contains("OfflineAnalysis"))
@@ -66,8 +61,7 @@ public class OfflineAnalysis
 		}
 	}
 
-	private static void runDetector(StepDetector detector, DataLogger logger, File file)
-	{
+	private static void runDetector(StepDetector detector, DataLogger logger, File file) {
 		Matcher fileNameMater = fileNamePattern.matcher(file.getName());
 		
 		if(fileNameMater.matches())
@@ -118,8 +112,7 @@ public class OfflineAnalysis
 		}
 	}
 	
-	private static void printResults(File file, StepDetector detector, int expectedSteps)
-	{
+	private static void printResults(File file, StepDetector detector, int expectedSteps) {
 		System.out.println("Steps counted (" + file.getName() + ", " + detector.getName() + "): " + 
 				detector.getSteps() + " / " + expectedSteps);
 	}

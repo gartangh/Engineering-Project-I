@@ -1,4 +1,4 @@
-package be.ugent.csl.StepCounter;
+package androidintroductie.ugent.be.steps;
 
 /*
  * Interface for a step detector. 

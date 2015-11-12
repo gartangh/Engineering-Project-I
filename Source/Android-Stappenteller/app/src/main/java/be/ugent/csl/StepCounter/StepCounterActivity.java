@@ -83,7 +83,7 @@ public class StepCounterActivity extends Activity {
 	/*
 	 * Interaction with the Service that gathers sensor data.
 	 */
-	private boolean accellMeterServiceBound = false;
+	private boolean accellMeterServiceBound = true;
 
 	private ServiceConnection accellMeterServiceConnection = new ServiceConnection() {
 		public void onServiceConnected(ComponentName className, IBinder service) {
@@ -92,7 +92,7 @@ public class StepCounterActivity extends Activity {
 		}
 
 		public void onServiceDisconnected(ComponentName className) {
-			Util.get().setService(null);			
+			Util.get().setService(null);
 			Log.i(Util.TAG, "Service connection removed");
 		}
 	};
