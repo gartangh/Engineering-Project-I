@@ -103,8 +103,10 @@ public class AccellMeterService extends Service implements SensorEventListener {
     	 * Unregister first, otherwise the listener keeps receiving
     	 * data at the highest set rate.
     	 */
-        synchronized(this) {
-            if(registered) {
+        synchronized(this)
+        {
+            if(registered)
+            {
                 mSensorManager.unregisterListener(this, mAccellSensor);
                 registered = false;
             }
