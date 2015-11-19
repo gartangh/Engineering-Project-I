@@ -101,6 +101,10 @@ public class Util {
         for(StepDetector s : detectors.values())
             s.addData(timestamp, x, y, z);
 
+        if (accellMeterService == null) {
+            return;
+        }
+
         if(timestamp - lastEventTime > 500000000) { // 0.5 s in nanos
             Intent intent = new Intent("be.ugent.csl.StepCounterIntent");
             accellMeterService.sendBroadcast(intent);

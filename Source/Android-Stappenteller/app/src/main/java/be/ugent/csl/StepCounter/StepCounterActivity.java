@@ -286,7 +286,8 @@ public class StepCounterActivity extends Activity {
 	       	 */
 	       	Intent i = new Intent(this, AccellMeterService.class);
 	       	/* First we bind to the service to be able to talk to it through the local binding */
-	       	accellMeterServiceBound = bindService(i, accellMeterServiceConnection, BIND_AUTO_CREATE);
+	       	Log.e(Util.TAG, "Requesting to bind service");
+			accellMeterServiceBound = bindService(i, accellMeterServiceConnection, BIND_AUTO_CREATE);
 	       	
 	       	/* We also need to start the service explicitly, with the same intent to make sure
 	       	 * the service keeps running even when the activity loses focus.
