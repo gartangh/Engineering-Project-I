@@ -14,7 +14,7 @@ public class OfflineAnalysis {
 		 * Opgave: intialiseer hier de stappendetectors.
 		 */
 		return new StepDetector[]{
-			// TODO
+			new DummyStepDetector()
 		};
 	}
 	
