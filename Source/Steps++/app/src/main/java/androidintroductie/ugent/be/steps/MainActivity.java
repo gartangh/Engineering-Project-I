@@ -160,11 +160,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (stepsComparedToTarget <= 0) {
             textView5.setText("Congratulations! You have reached your daily target of " + target + " steps!");
             progressBar.setProgress(100);
+            textView9.setText("100 %");
+
             // Notification (doesn't work jet)
             //Notify("Steps++ Target Reached","Congratulations! You have reached your daily target of " + target + " steps!");
         } else {
-            textView5.setText("Your target is " + target + " steps, still " + (target - steps) + " to go! Press the inputfield to edit your goal.");
+            textView5.setText("Your target is " + target + " steps, still " + (target - steps) + " to go!");
             progressBar.setProgress((int) ((steps * 100.0) / target));
+            textView9.setText(progressBar.getProgress() + " %");
+
         }
 
         // Target > 100 || target < 100000)
@@ -180,11 +184,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             if (stepsComparedToTarget <= 0) {
                                 textView5.setText("Congratulations! You have reached your daily target of " + target + " steps!");
                                 progressBar.setProgress(100);
+                                textView9.setText("100 %");
                                 // Notification (doesn't work jet)
                                 //Notify("Steps++ Target Reached","Congratulations! You have reached your daily target of " + target + " steps!");
                             } else {
-                                textView5.setText("Your target is " + target + " steps, still " + (target - steps) + " to go!\nPress the inputfield to edit your goal.");
+                                textView5.setText("Your target is " + target + " steps, still " + (target - steps) + " to go!");
                                 progressBar.setProgress((int) ((steps * 100.0) / target));
+                                textView9.setText(progressBar.getProgress() + " %");
                             }
                         }
                         return false;
