@@ -110,6 +110,6 @@ public class Util {
             accellMeterService.sendBroadcast(intent);
             lastEventTime = timestamp;
         }
-        //getLogger().flushLine();
+        getLogger().flushLine();
     }
 }
