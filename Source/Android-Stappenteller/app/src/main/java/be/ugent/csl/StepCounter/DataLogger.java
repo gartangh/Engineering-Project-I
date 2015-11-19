@@ -7,9 +7,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.os.Environment;
-import android.util.Log;
-
 /*
  * @author Bart Coppens
  * @author Christophe Foket
@@ -60,7 +57,8 @@ public class DataLogger {
 			writer = new BufferedWriter(new FileWriter(logFile, false));
 		}
 		catch(IOException e) {
-			Log.e(TAG, "IOException when opening a writer to " + logFileName, e);
+			System.err.println("IOException when opening a writer to " + logFileName);
+			e.printStackTrace(System.err);
 		}
 	}
 	
