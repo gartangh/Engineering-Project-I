@@ -22,7 +22,6 @@ public class DummyStepDetector implements StepDetector {
         if (teller == waarden.length) {
             controleer(waarden);
             teller = 0;
-
         }
 
         logger.logData(getName(), "stappen", steps);
@@ -33,20 +32,19 @@ public class DummyStepDetector implements StepDetector {
     public int controleer(double[] waarden) {
         double max = 0;
         double min = 0;
-        for (int i = 0; i < waarden.length; i++) {
-            if (waarden[i] > max) {
-                max = waarden[i];
+        for (double i : waarden) {
+            if (i > max) {
+                max = i;
             }
-            if (waarden[i] < min){
-                min = waarden[i];
+            if (i < min){
+                min = i;
             }
         }
 
-        if ((max >= stapGrenswaarde)||(min <= -1*stapGrenswaarde)) {
+        if (max >= stapGrenswaarde||min <= -1 * stapGrenswaarde) {
             return steps++;
         } else {
             return steps;
-
         }
     }
 
