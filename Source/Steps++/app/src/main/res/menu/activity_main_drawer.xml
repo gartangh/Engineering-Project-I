@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <group android:checkableBehavior="single">
         <item android:id="@+id/nav_log_data" android:icon="@android:drawable/ic_menu_save"
@@ -11,10 +11,15 @@
             android:title="Sample Rate" />
         <item android:id="@+id/nav_checkbox" android:icon="@android:drawable/ic_menu_set_as"
             android:title="ON/OFF" android:checkable="false" />
+        <item android:title="About" android:icon="@android:drawable/ic_menu_info_details"
+            android:id="@+id/nav_about" />
+        <item android:id="@+id/nav_exit" android:icon="@android:drawable/ic_menu_close_clear_cancel"
+            android:title="Exit" />
+
     </group>
 
     <item android:title="Settings">
-        <menu>
+        <menu xmlns:android="http://schemas.android.com/apk/res/android">
             <item android:id="@+id/nav_target" android:icon="@android:drawable/ic_menu_preferences"
                 android:title="Target" />
             <item android:id="@+id/nav_units" android:icon="@android:drawable/ic_menu_preferences"
@@ -24,11 +29,6 @@
             <item android:id="@+id/nav_weight" android:icon="@android:drawable/ic_menu_preferences"
                 android:title="Weight" />
         </menu>
-    </item>
-
-    <item android:title="About" android:icon="@android:drawable/ic_menu_info_details"
-        android:id="@+id/nav_about">
-
     </item>
 
 </menu>

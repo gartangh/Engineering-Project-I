@@ -44,8 +44,8 @@ public class AccellMeterService extends Service implements SensorEventListener {
 		* te vragen a.d.h.v. een waarde in een veld uit de Sensor
 		* klasse.
 		*/
-        mSensorManager = (SensorManager)getSystemService(SENSOR_SERVICE); // TODO
-        mAccellSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER); // TODO
+        mSensorManager = (SensorManager)getSystemService(SENSOR_SERVICE);
+        mAccellSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
     }
 
     @Override
@@ -93,7 +93,6 @@ public class AccellMeterService extends Service implements SensorEventListener {
 			* de gepaste argumenten. Je kunt hierbij gebruik maken
 			* van de velden in het event-object.
 			*/
-            // TODO
             Util.get().gotSensorData(event.timestamp, event.values[0], event.values[1], event.values[2]);
         }
     }

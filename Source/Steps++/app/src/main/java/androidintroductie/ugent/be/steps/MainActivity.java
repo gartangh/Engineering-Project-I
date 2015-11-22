@@ -1,15 +1,20 @@
 package androidintroductie.ugent.be.steps;
 
+import android.Manifest;
 import android.annotation.TargetApi;
+import android.app.Activity;
+import android.app.Fragment;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
+import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -43,7 +48,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private ProgressBar progressBar;
 
     private int target = 1000;
-    private int steps = 103;
+    private int steps = 0;
     private int counter = 0;
 
     public static final String TAG = MainActivity.class.getName();
@@ -63,6 +68,34 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             Log.i(Util.TAG, "Service connection removed");
         }
     };
+
+    // Storage Permissions
+    private static final int REQUEST_EXTERNAL_STORAGE = 1;
+    private static String[] PERMISSIONS_STORAGE = {
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
+    };
+
+    /**
+     * Checks if the app has permission to write to device storage
+     *
+     * If the app does not has permission then the user will be prompted to grant permissions
+     *
+     * @param activity
+     */
+    public static void verifyStoragePermissions(Activity activity) {
+        // Check if we have write permission
+        int permission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+
+        if (permission != PackageManager.PERMISSION_GRANTED) {
+            // We don't have permission so prompt the user
+            ActivityCompat.requestPermissions(
+                    activity,
+                    PERMISSIONS_STORAGE,
+                    REQUEST_EXTERNAL_STORAGE
+            );
+        }
+    }
 
     public void onDestroy() {
         if (USE_SERVICE) {
@@ -300,22 +333,26 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
+        Fragment fragment = null;
 
+        Class fragmentClass;
         if (id == R.id.nav_log_data) {
             Util.get().getLogger().setLogPrefix(editText2.getText().toString());
         } else if (id == R.id.nav_clear_data) {
             Util.get().getLogger().clearLogFile();
-        } else if (id == R.id.nav_checkbox){
-
         } else if (id == R.id.nav_sample_rate) {
 
+        } else if (id == R.id.nav_checkbox){
+
+        } else if (id == R.id.nav_about) {
+
+        } else if (id == R.id.nav_exit) {
+            finish();
         } else if (id == R.id.nav_target) {
 
         } else if (id == R.id.nav_length) {
 
         } else if (id == R.id.nav_weight) {
-
-        } else if (id == R.id.nav_about) {
 
         } else if (id == R.id.nav_units) {
 
