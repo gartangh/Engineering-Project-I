@@ -44,7 +44,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private TextView textView8;
     private TextView textView9;
     private EditText editText1;
-    private EditText editText2;
     private ProgressBar progressBar;
 
     private int target = 1000;
@@ -135,8 +134,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
         // Sets target
         editText1 = (EditText) findViewById(R.id.editText1);
-        // Adds a message to the logdata file
-        editText2 = (EditText) findViewById(R.id.editText2);
         // Toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -246,15 +243,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
         );
 
-        editText2.setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        editText2.setText("");
-                    }
-                }
-        );
-
         //int days = 0;
         // When 00:00 o'clock;
         /*
@@ -337,7 +325,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         Class fragmentClass;
         if (id == R.id.nav_log_data) {
-            Util.get().getLogger().setLogPrefix(editText2.getText().toString());
         } else if (id == R.id.nav_clear_data) {
             Util.get().getLogger().clearLogFile();
         } else if (id == R.id.nav_sample_rate) {
