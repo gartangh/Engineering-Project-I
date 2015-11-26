@@ -45,7 +45,7 @@
                     android:textSize="16dp"
                     android:minHeight="84dp"
                     android:layout_weight="0.13"
-                    android:elevation="6dp" />
+                    android:elevation="7dp" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -79,7 +79,7 @@
                     android:textAlignment="center"
                     android:minHeight="92dp"
                     android:layout_weight="0.13"
-                    android:elevation="10dp"
+                    android:elevation="0dp"
                     android:background="#FFFFFF" />
 
                 <requestFocus
@@ -102,7 +102,7 @@
                     android:progressTint="#EC407A"
                     android:minHeight="24dp"
                     android:layout_weight="0.13"
-                    android:elevation="4dp"
+                    android:elevation="6dp"
                     android:background="#FFFFFF" />
 
                 <TextView
@@ -130,7 +130,8 @@
                     android:textSize="16dp"
                     android:minHeight="26dp"
                     android:layout_weight="0.13"
-                    android:elevation="6dp" />
+                    android:elevation="7dp"
+                    android:editable="true" />
 
                 <EditText
                     android:layout_width="match_parent"
