@@ -262,7 +262,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         days++;
          */
         // For the moment
-        int days = 356;
+        int days = 365;
         int average = (int)(total * 1.0 / days);
         String average2 = String.valueOf(average);
         if (average < 1000) {
@@ -434,7 +434,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 s = "The longest walk around the world was completed by a former neon sign salesman,\nJean Beliveau.He walked 75,000 km through 64 counties!\n The trip took him 11 years.";
                 break;
             case 22:
-                s = "Racewalking has been an olympic sport for over 90 years!\nDistances go from 1.5 km till 150 km.";
+                s = "Racewalking has been an olympic sport for over 90 years!\nDistances go from 1.5 km untill 100 km.";
                 break;
             case 23:
                 s = "Given that the world is about 40,000 km in circumference and the average walking rate is 6 km an hour,\nit would take almost a year of nonstop walking to go around our planet!";
@@ -446,10 +446,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 s = "Researchers note that that the human backbone was not designed to\nwork in the vertical position of walking on two legs.\nThis is why modern humans suffer from sore backs, slipped discs, arthritis and more!";
                 break;
             case 26:
-                s = "Researchers at the Université Catholique de\nLouvin showed that you can see if a woman has sex regularly\nby the way she walks!";
+                s = "Researchers at the Université Catholique de\nLouvain showed that you can see if a woman has sex regularly\nby the way she walks!";
                 break;
             case 27:
-                s = "It's possible to distinguish straight man from homosexual men by the way they walk.\nHomosexuals often will often sway his hips.";
+                s = "It's possible to distinguish straight man from homosexual men by the way they walk.\nHomosexuals often sway their hips.";
                 break;
             case 28:
                 s = "The firsts successful robot to walk had 6 legs!\nAs technology has improved, robots can now walk on 2 feet.\nStill, they don't walk as gracefully as human beings.";
@@ -467,10 +467,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 s = "Running and walking burns essentially the same amount of calories!\nRunning just gets a person from A to B a lot faster.";
                 break;
             case 33:
-                s = "Most babies begin to walk around 13 months,\nthrough some may start as early as 9 months and as latte as 16 months!";
+                s = "Most babies begin to walk around 13 months,\nthrough some may start as early as 9 months and as late as 16 months!";
                 break;
             case 34:
-                s = "Walking is known as ambulation.\nThe term \"walk\" is from the old English wealcan, or \"to roll\".";
+                s = "Walking is known as an ambulation.\nThe term \"walk\" stems from the old English word wealcan, or \"to roll\".";
                 break;
             case 35:
                 s = "Walking reduces the risk of heart attacks, type 2 diabetes and bone fractures!\nAdditionally, brisk walking can reduce stress and depression levels too.";
