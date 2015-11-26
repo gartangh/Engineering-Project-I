@@ -47,7 +47,7 @@ public class Util {
 
 	private AccellMeterService accellMeterService;
 
-	private SampleRate sampleRate = SampleRate.UI;
+	private SampleRate sampleRate = SampleRate.GAME;
 	
 	private long lastEventTime;
 	
