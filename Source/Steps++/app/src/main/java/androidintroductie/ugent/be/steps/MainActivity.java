@@ -365,7 +365,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private static String anecdote() {
         String s;
-        int number = (int) (0.5 + Math.random() * 20);
+        int number = (int) (0.5 + Math.random() * 40);
         switch(number) {
             case 0:
                 s = "An error has occurred, our anecdote generator didn't work!";
@@ -429,6 +429,66 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case 20:
                 s = "The recommended body fat percentage for women is 20 - 21 %,\nfor men it's around 15 %.";
+                break;
+            case 21:
+                s = "The longest walk around the world was completed by a former neon sign salesman,\nJean Beliveau.He walked 75,000 km through 64 counties!\n The trip took him 11 years.";
+                break;
+            case 22:
+                s = "Racewalking has been an olympic sport for over 90 years!\nDistances go from 1.5 km till 150 km.";
+                break;
+            case 23:
+                s = "Given that the world is about 40,000 km in circumference and the average walking rate is 6 km an hour,\nit would take almost a year of nonstop walking to go around our planet!";
+                break;
+            case 24:
+                s = "Humans became bipedal 3 to 6 million years ago.\nOur ancestors did this to better carry goods and use energy more efficient.";
+                break;
+            case 25:
+                s = "Researchers note that that the human backbone was not designed to\nwork in the vertical position of walking on two legs.\nThis is why modern humans suffer from sore backs, slipped discs, arthritis and more!";
+                break;
+            case 26:
+                s = "Researchers at the Université Catholique de\nLouvin showed that you can see if a woman has sex regularly\nby the way she walks!";
+                break;
+            case 27:
+                s = "It's possible to distinguish straight man from homosexual men by the way they walk.\nHomosexuals often will often sway his hips.";
+                break;
+            case 28:
+                s = "The firsts successful robot to walk had 6 legs!\nAs technology has improved, robots can now walk on 2 feet.\nStill, they don't walk as gracefully as human beings.";
+                break;
+            case 29:
+                s = "Scientists believe that walking originated underwater by\n\"hopping\" air-breathing fish.";
+                break;
+            case 30:
+                s = "Amish men take about 18,425 steps per day! Amish woman take about 14,196!\nthe average American adult takes just about 4,000!\nOne of the reasons there is 27 % less obese in the Amish population.";
+                break;
+            case 31:
+                s = "To burn off one plain M&M candy,\na person would need to walk the entire length of a football field!";
+                break;
+            case 32:
+                s = "Running and walking burns essentially the same amount of calories!\nRunning just gets a person from A to B a lot faster.";
+                break;
+            case 33:
+                s = "Most babies begin to walk around 13 months,\nthrough some may start as early as 9 months and as latte as 16 months!";
+                break;
+            case 34:
+                s = "Walking is known as ambulation.\nThe term \"walk\" is from the old English wealcan, or \"to roll\".";
+                break;
+            case 35:
+                s = "Walking reduces the risk of heart attacks, type 2 diabetes and bone fractures!\nAdditionally, brisk walking can reduce stress and depression levels too.";
+                break;
+            case 36:
+                s = "Mortality rates among retired men who walked less than 1.6 km a day,\nare almost twice as high as those who walked more than 3.2 km!";
+                break;
+            case 37:
+                s = "Walking helps prevent osteoporosis.\nResearch show that postmenopausal women who walk around 1.6 km per day\nhave higher whole-body bone than those who don't!";
+                break;
+            case 38:
+                s = "Experts not that when shopping for walking shoes,\nYou should always buy shoes that feel comfortable right away.\nThere is no breaking-in period.";
+                break;
+            case 39:
+                s = "Feet swell during the day.\nIt's important to buy new shoes at the end of the day\nso they will fit best!";
+                break;
+            case 40:
+                s = "The average walking speed for humans is about 6 km per hour!";
                 break;
             default:
                 s = "Anecdotes will be displayed here.";
