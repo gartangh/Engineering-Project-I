@@ -43,12 +43,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private TextView textView7;
     private TextView textView8;
     private TextView textView9;
+    private TextView textView10;
+    private TextView textView11;
     private EditText editText1;
     private ProgressBar progressBar;
 
-    private int target = 1000;
     private int steps = 0;
-    private int counter = 0;
+    private int run = 0;
+    private int target = 1000;
+    private int max = 0;
 
     public static final String TAG = MainActivity.class.getName();
 
@@ -107,6 +110,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -130,10 +134,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         textView8 = (TextView) findViewById(R.id.textView8);
         // Shows percentage of progressbar
         textView9 = (TextView) findViewById(R.id.textView9);
+        // Shows amount of fat burned in grams
+        textView10 = (TextView) findViewById(R.id.textView10);
+        // Shows max amount of steps put in a day
+        textView11 = (TextView) findViewById(R.id.textView11);
+
         // Shows progress in percent
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
+
         // Sets target
         editText1 = (EditText) findViewById(R.id.editText1);
+
         // Toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -141,13 +152,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
+
+        // Notification
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
         // Pick a random anecdote on startup.
         textView4.setText(anecdote());
         // Pick a random anecdote when clicked.
-        textView4.setOnClickListener (
+        textView4.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -155,23 +168,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     }
                 }
         );
-
-        String steps2 = String.valueOf(steps);
-        if (steps < 1000) {
-            textView2.setText(steps2);
-            textView2.setTextSize(128);
-        } else if (steps < 10000) {
-            textView2.setText(steps2.substring(0, steps2.length() - 3) + "," + steps2.substring(steps2.length() - 3));
-            textView2.setTextSize(110);
-        } else {
-            textView2.setText(steps2.substring(0, steps2.length() - 3) + "," + steps2.substring(steps2.length() - 3));
-            textView2.setTextSize(92);
-        }
-
-        // Calculate km
-        textView7.setText((int)(steps * 0.75) / 1000.000 + "km");
-        // Calculate kCal
-        textView8.setText((steps * 30) / 1000.0 + "kCal");
 
         // For the moment
         int total = 1234567;
@@ -185,54 +181,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             textView6.setText(textView6Text);
         }
 
-        // Links text with target
-        int stepsComparedToTarget = target - steps;
-        if (stepsComparedToTarget <= 0) {
-            textView5.setText("Congratulations! You have reached your daily target of " + target + " steps!");
-            progressBar.setProgress(100);
-            textView9.setText("100 %");
-
-            // Notification (doesn't work jet)
-            //Notify("Steps++ Target Reached","Congratulations! You have reached your daily target of " + target + " steps!");
-        } else {
-            textView5.setText("Your target is " + target + " steps, still " + (target - steps) + " to go!");
-            progressBar.setProgress((int) ((steps * 100.0) / target));
-            textView9.setText(progressBar.getProgress() + " %");
-
+        // Calculate km
+        textView7.setText((steps * 0.75) / 1000.000 + " km");
+        // Calculate kCal
+        textView8.setText((steps * 3.0) / 100.0 + " kCal");
+        // Calculate fat burned
+        textView10.setText(steps / 300.0 + " g");
+        // Calculate max
+        textView11.setText("Max " + max);
+        if (steps >= max) {
+            max = steps;
+            textView11.setText("Max " + max);
         }
-
-        // Target > 100 || target < 100000)
-        editText1.setOnEditorActionListener(
-                new TextView.OnEditorActionListener() {
-                    @Override
-                    public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                        int input = Integer.parseInt(editText1.getText().toString());
-                        if (input <= 100000 && input >= 100) {
-                            target = input;
-                            editText1.setText(String.valueOf(target));
-                            int stepsComparedToTarget = target - steps;
-                            if (stepsComparedToTarget <= 0) {
-                                textView5.setText("Congratulations! You have reached your daily target of " + target + " steps!");
-                                progressBar.setProgress(100);
-                                textView9.setText("100 %");
-                                // Notification (doesn't work jet)
-                                //Notify("Steps++ Target Reached","Congratulations! You have reached your daily target of " + target + " steps!");
-                            } else {
-                                textView5.setText("Your target is " + target + " steps, still " + (target - steps) + " to go!");
-                                progressBar.setProgress((int) ((steps * 100.0) / target));
-                                textView9.setText(progressBar.getProgress() + " %");
-                            }
-                        }
-                        return false;
-                    }
-                }
-        );
-
-        // Make a notificationbuilder
-        //NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this);
-
-        // Set percentage of progressbar
-        textView9.setText(progressBar.getProgress() + " %");
 
         editText1.setOnClickListener(
                 new View.OnClickListener() {
@@ -243,14 +203,62 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
         );
 
+        // Target > 100 || target < 100000)
+        editText1.setOnEditorActionListener(
+                new TextView.OnEditorActionListener() {
+                    @Override
+                    public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                        int input = Integer.parseInt(editText1.getText().toString());
+                        if (input <= 100000 && input >= 100) {
+                            target = input;
+                            editText1.setText(String.valueOf(target));
+                            int stepsComparedToTarget = target - steps - run;
+                            if (stepsComparedToTarget <= 0) {
+                                textView5.setText("Congratulations! You have reached your daily target of " + target + " steps!");
+                                progressBar.setProgress(100);
+                                textView9.setText("100 %");
+                                // Notification (doesn't work jet)
+                                //Notify("Steps++ Target Reached","Congratulations! You have reached your daily target of " + target + " steps!");
+                            } else {
+                                textView5.setText("Your target is " + target + " steps, still " + (target - steps - run) + " to go!");
+                                progressBar.setProgress(steps * 100 / target);
+                                progressBar.setSecondaryProgress(run * 100/ target);
+                                textView9.setText((steps + run) / target + " %");
+                            }
+                        }
+                        return false;
+                    }
+                }
+        );
+
+        // Links text with target
+        int stepsComparedToTarget = target - steps - run;
+        if (stepsComparedToTarget <= 0) {
+            textView5.setText("Congratulations! You have reached your daily target of " + target + " steps!");
+            progressBar.setProgress(steps * 100/ target);
+            progressBar.setSecondaryProgress(run * 100 / target);
+            textView9.setText("100 %");
+            // Notification (doesn't work jet)
+            //Notify("Steps++ Target Reached","Congratulations! You have reached your daily target of " + target + " steps!");
+        } else {
+            textView5.setText("Your target is " + target + " steps, still " + (target - steps - run) + " to go!");
+            progressBar.setProgress(steps * 100 / target);
+            progressBar.setSecondaryProgress(run * 100/ target);
+            textView9.setText((steps + run) / target + " %");
+        }
+
+        // Make a notificationbuilder
+        //NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this);
+
         //int days = 0;
         // When 00:00 o'clock;
         /*
         steps = 0;
+        run = 0;
         days++;
          */
         // For the moment
-        int days = 365;
+        int days = 1;
         int average = (int)(total * 1.0 / days);
         String average2 = String.valueOf(average);
         if (average < 1000) {
@@ -274,11 +282,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         BroadcastReceiver receiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-				 //Opgave: verwerk hier de intent en stel het aantal stappen in.
-                // TODO
-                // For now
-                counter++;
-                textView2.setText(String.valueOf(counter));
+                steps = Util.get().getCurrentStepDetector().getSteps();
+                run = Util.get().getCurrentStepDetector().getRun();
+                steps += run;
+                String steps2 = String.valueOf(steps);
+                if (steps < 1000) {
+                    textView2.setText(steps2);
+                    textView2.setTextSize(128);
+                } else if (steps < 10000) {
+                    textView2.setText(steps2.substring(0, steps2.length() - 3) + "," + steps2.substring(steps2.length() - 3));
+                    textView2.setTextSize(110);
+                } else {
+                    textView2.setText(steps2.substring(0, steps2.length() - 3) + "," + steps2.substring(steps2.length() - 3));
+                    textView2.setTextSize(92);
+                }
             }
         };
         registerReceiver(receiver, filter);

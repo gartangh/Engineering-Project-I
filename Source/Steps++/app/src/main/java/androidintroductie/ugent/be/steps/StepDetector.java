@@ -12,6 +12,8 @@ public interface StepDetector {
 	public void setDataLogger(DataLogger logger);
 	
 	public int getSteps();
+
+	public int getRun();
 	
 	public String getName();
 }

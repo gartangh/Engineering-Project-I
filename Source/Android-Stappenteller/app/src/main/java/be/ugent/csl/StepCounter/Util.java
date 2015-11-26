@@ -69,6 +69,7 @@ public class Util {
 		// TODO
 		addDetector(new DummyStepDetector());
 		addDetector(new ComplexStepDetector());
+		addDetector(new DerivedStepDetector());
 	}
 
 	public static Util get() {

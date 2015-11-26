@@ -55,6 +55,7 @@ public class DataLogger {
         }
         catch(IOException e) {
             Log.e(TAG, "IOException when opening a writer to " + logFileName, e);
+            e.printStackTrace(System.err);
         }
     }
 

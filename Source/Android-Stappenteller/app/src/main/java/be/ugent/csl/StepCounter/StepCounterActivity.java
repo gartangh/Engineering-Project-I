@@ -223,7 +223,7 @@ public class StepCounterActivity extends Activity {
         /* seekbar */
         rateMultiplierBar = (SeekBar)findViewById(R.id.rateMultiplierBar);
 
-		rateMultiplierBar.setProgress(0);
+		rateMultiplierBar.setProgress(2);
 		sampleRateText.setText("Sample Rate");
 
 		rateMultiplierBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -248,7 +248,8 @@ public class StepCounterActivity extends Activity {
 						Util.get().setRate(SampleRate.FASTEST);
 						break;
 					default:
-						s = "Normal: 5 Hz";
+						s = "Game: 50 Hz";
+						Util.get().setRate(SampleRate.GAME);
 				}
 				sampleRateText.setText(s);
 			}
@@ -277,7 +278,6 @@ public class StepCounterActivity extends Activity {
 			}
 
 			public void onNothingSelected(AdapterView<?> arg0) {
-				// TODO Auto-generated method stub
 				Util.get().setStepDetector(("complexStepDetector"));
 			}
 		});

@@ -33,7 +33,7 @@ public class Util {
 
     private AccellMeterService accellMeterService;
 
-    private SampleRate sampleRate = SampleRate.UI;
+    private SampleRate sampleRate = SampleRate.GAME;
 
     private long lastEventTime;
 
@@ -48,11 +48,9 @@ public class Util {
     private Util() {
         logger = new DataLogger(Environment.getExternalStorageDirectory(), TRACE_FILE_NAME);
         detectors = new HashMap<String, StepDetector>();
-
-		/*
-		 * Opgave: voeg hier stappendetectors toe met behulp van addDetector.
-		 */
-        // TODO
+        addDetector(new DummyStepDetector());
+        addDetector(new ComplexStepDetector());
+        addDetector(new DerivedStepDetector());
     }
 
     public static Util get() {
