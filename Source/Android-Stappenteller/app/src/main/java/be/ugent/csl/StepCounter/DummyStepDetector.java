@@ -29,7 +29,7 @@ public class DummyStepDetector implements StepDetector {
         waarde2 = waarde3;
     }
 
-    public int controleer(double[] waarden) {
+    private int controleer(double[] waarden) {
         double max = 0;
         double min = 0;
         for (double i : waarden) {
@@ -54,6 +54,10 @@ public class DummyStepDetector implements StepDetector {
 
     public int getSteps() {
         return steps;
+    }
+
+    public int getRun() {
+        return 0;
     }
 
     public String getName() {

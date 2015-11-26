@@ -42,7 +42,10 @@ import android.widget.TextView;
  * we make available at a later stage in the project.
  */
 public class StepCounterActivity extends Activity {
-	
+
+	private int steps;
+	private int run;
+
 	public static final String TAG = StepCounterActivity.class.getName();
 	
 	private static final boolean USE_SERVICE = true;
@@ -77,8 +80,6 @@ public class StepCounterActivity extends Activity {
 	
 	/* message input field */
 	private EditText messageEditText;
-
-	private int counter = 0;
 
 	/*
 	 * Interaction with the Service that gathers sensor data.
@@ -187,7 +188,7 @@ public class StepCounterActivity extends Activity {
 		);
 
         /* Text Views */
-		sampleRateText = (TextView) findViewById(R.id.sampleRateText);
+		sampleRateText = (TextView)findViewById(R.id.sampleRateText);
 		traceLinesText = (TextView)findViewById(R.id.traceLinesText);
 		// Shows amount of steps taken
 		numberOfStepsText = (TextView)findViewById(R.id.numberOfStepsText);
@@ -277,8 +278,9 @@ public class StepCounterActivity extends Activity {
 
 			public void onNothingSelected(AdapterView<?> arg0) {
 				// TODO Auto-generated method stub
+				Util.get().setStepDetector(("complexStepDetector"));
 			}
-        });
+		});
 
         if(USE_SERVICE) {
 	       	/*
@@ -298,16 +300,15 @@ public class StepCounterActivity extends Activity {
 		IntentFilter filter = new IntentFilter();
 		filter.addAction("be.ugent.csl.StepCounterIntent");
 
+		Util.get().setStepDetector("complexStepDetector");
+
 		BroadcastReceiver receiver = new BroadcastReceiver() {
 			@Override
 			public void onReceive(Context context, Intent intent) {
-				/*
-				 * Opgave: verwerk hier de intent en stel het aantal stappen in.
-				 */
-				// TODO
-				counter++;
-				numberOfStepsText.setText(String.valueOf(counter));
-
+				steps = Util.get().getCurrentStepDetector().getSteps();
+				run = Util.get().getCurrentStepDetector().getRun();
+				steps += run;
+				numberOfStepsText.setText(String.valueOf(steps));
 			}
 		};
 		registerReceiver(receiver, filter);

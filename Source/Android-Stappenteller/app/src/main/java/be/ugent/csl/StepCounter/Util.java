@@ -67,7 +67,8 @@ public class Util {
 		 * Opgave: voeg hier stappendetectors toe met behulp van addDetector.
 		 */
 		// TODO
-		//addDetector(DummyStepDetector());
+		addDetector(new DummyStepDetector());
+		addDetector(new ComplexStepDetector());
 	}
 
 	public static Util get() {
