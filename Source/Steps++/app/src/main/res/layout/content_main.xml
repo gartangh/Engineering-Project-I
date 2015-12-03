@@ -232,7 +232,7 @@
                                     android:layout_height="wrap_content"
                                     android:id="@+id/textView10"
                                     android:textSize="24dp"
-                                    android:textColor="#9E9E9E"
+                                    android:textColor="#000000"
                                     android:background="#FFFFFF"
                                     android:elevation="8dp" />
 
@@ -271,7 +271,7 @@
                                     android:textAppearance="?android:attr/textAppearanceLarge"
                                     android:id="@+id/textView11"
                                     android:textSize="24dp"
-                                    android:textColor="#000000"
+                                    android:textColor="#9E9E9E"
                                     android:elevation="8dp"
                                     android:background="#FFFFFF" />
 
