@@ -4,7 +4,8 @@ public class ComplexStepDetector implements StepDetector {
 
     private int steps = 70;
     private int run = 25;
-    private int total = 95;
+    private int today = 95;
+    private int total = 1234;
 
     private DataLogger logger = null;
 
@@ -63,9 +64,11 @@ public class ComplexStepDetector implements StepDetector {
         if (max >= evenwicht + stapGrenswaarde || min <= evenwicht - stapGrenswaarde) {
             if (max >= evenwicht + loopGrenswaarde || max <= evenwicht - loopGrenswaarde) {
                 run++;
+                today++;
                 total++;
             } else {
                 steps++;
+                today++;
                 total++;
             }
         }
@@ -85,6 +88,10 @@ public class ComplexStepDetector implements StepDetector {
 
     public int getTotal() {
         return total;
+    }
+
+    public int getToday() {
+        return today;
     }
 
     public String getName() {

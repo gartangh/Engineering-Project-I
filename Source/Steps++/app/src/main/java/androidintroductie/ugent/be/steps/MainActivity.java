@@ -52,6 +52,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private int steps = 0;
     private int run = 0;
     private int max = 0;
+    private int today = 0;
     private int total = 0;
     private int stepsrun = 0;
 
@@ -166,7 +167,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         steps = Util.get().getCurrentStepDetector().getSteps();
         run = Util.get().getCurrentStepDetector().getRun();
-        stepsrun = Util.get().getCurrentStepDetector().getTotal();
+        stepsrun = Util.get().getCurrentStepDetector().getToday();
 
         textView2.setText(String.valueOf(stepsrun));
 
@@ -272,7 +273,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                 steps = Util.get().getCurrentStepDetector().getSteps();
                 run = Util.get().getCurrentStepDetector().getRun();
-                stepsrun = Util.get().getCurrentStepDetector().getTotal();
+                stepsrun = Util.get().getCurrentStepDetector().getToday();
                 String stepsrun2 = String.valueOf(stepsrun);
                 if (steps < 1000) {
                     textView2.setText(stepsrun2);
@@ -324,6 +325,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     progressBar.setSecondaryProgress(progressBar.getProgress() + run * 100 / target);
                     textView9.setText(String.valueOf((int)(stepsrun * 100.0 / target)) + " %");
                 }
+
+                getSharedPreferences(total2, MODE_WORLD_READABLE);
+                
             }
         };
         registerReceiver(receiver, filter);
