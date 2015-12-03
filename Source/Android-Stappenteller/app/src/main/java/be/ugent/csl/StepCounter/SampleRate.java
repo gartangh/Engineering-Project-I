@@ -12,9 +12,9 @@ public enum SampleRate
 	
 	private int accuracy;
 	
-	private SampleRate(int accuracy)
+	SampleRate(int accuracy)
 	{
-		this.accuracy = accuracy;		
+		this.accuracy = accuracy;
 	}
 	
 	public int getAccuracy()

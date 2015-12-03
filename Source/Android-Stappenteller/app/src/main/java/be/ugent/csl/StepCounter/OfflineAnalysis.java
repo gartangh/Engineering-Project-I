@@ -10,12 +10,7 @@ public class OfflineAnalysis {
 	private static final Pattern fileNamePattern = Pattern.compile(".+-([0-9]+)\\.csv");
 		
 	private static StepDetector[] createDetectors() {
-		/*
-		 * Opgave: intialiseer hier de stappendetectors.
-		 */
-		return new StepDetector[]{
-			new DummyStepDetector()
-		};
+		return new StepDetector[]{new DummyStepDetector(), new ComplexStepDetector(), new DerivedStepDetector()};
 	}
 	
 	public static void main(String [] args) {

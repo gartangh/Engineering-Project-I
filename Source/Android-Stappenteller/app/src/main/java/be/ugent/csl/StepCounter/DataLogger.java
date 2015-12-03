@@ -1,16 +1,13 @@
 package be.ugent.csl.StepCounter;
 
+import android.util.Log;
+
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
-/*
- * @author Bart Coppens
- * @author Christophe Foket
- */
 
 public class DataLogger {
 	private static final String TAG = DataLogger.class.getName();
@@ -25,7 +22,7 @@ public class DataLogger {
 	private String logPrefix;
 	
 	private BufferedWriter writer;
-	
+
 	private File logDirectory;
 	
 	private String logFileName;
@@ -103,7 +100,9 @@ public class DataLogger {
 				}
 				printDataLine();
 			}
-			catch(IOException e){}
+			catch(IOException e){
+				Log.e(Util.TAG, "FlushLine failed");
+			}
 		}
 
 		fields.clear();

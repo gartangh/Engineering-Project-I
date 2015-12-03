@@ -113,17 +113,6 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Trace Lines"
-        android:id="@+id/traceLinesText"
-        android:layout_alignBottom="@+id/quit"
-        android:layout_alignParentRight="true"
-        android:layout_alignTop="@+id/quit"
-        android:textSize="32dp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:text="Number Of Steps"
         android:id="@+id/numberOfStepsText2"
         android:layout_below="@+id/quit"

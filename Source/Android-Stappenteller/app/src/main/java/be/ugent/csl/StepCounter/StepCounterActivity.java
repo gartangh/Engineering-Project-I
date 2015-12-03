@@ -13,7 +13,6 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
@@ -26,21 +25,6 @@ import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-/*
- * @author Andy Georges
- * @author Bart Coppens
- * @author Christophe Foket
- * 
- * This class implements the (only) activity of the application.
- * Here we define the actions that need to be taken when something
- * happens to each of the UI components and to update the various
- * UI fields when stuff happens.
- * 
- * Note to students. It is indicated where you need to add or change
- * code. If you add extra code, feel free to do so, but add it at the bottom of the 
- * class! Otherwise you might generate merge conflicts with patches
- * we make available at a later stage in the project.
- */
 public class StepCounterActivity extends Activity {
 
 	private int steps;
@@ -74,7 +58,6 @@ public class StepCounterActivity extends Activity {
 	
 	/* text fields */
 	private TextView sampleRateText;
-	private TextView traceLinesText;
 	private TextView numberOfStepsText;
 	private TextView numberOfStepsText2;
 	
@@ -108,30 +91,13 @@ public class StepCounterActivity extends Activity {
 		super.onDestroy();
 	}
 
-     /* This function is called when the activity is created.
-     * 
-     * Here, you need to add code for several things.
-     */
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
 	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        /* We indicate here that we will be using the layout defined in main.xml
-         * which has been translated into R.java.
-         */
-        setContentView(R.layout.main);
 
-        /* PRACTICUM 3.
-         * Opgave 2: a. Geef deze widgets een gepaste waarde door te refereren
-         *              naar de juiste ID's uit de layout.
-         *           b. Zorg ervoor dat de juiste luisteraars gedefinieerd
-         *              worden en dat je ook de passende stappen onderneemt
-         *              opdat de UI consistent blijft en het resultaat van 
-         *              actie weergegeven wordt. Je kunt hiervoor anonieme 
-         *              objecten gebruiken waarvoor je de juiste methoden 
-         *              implementeert.
-         */
-        
+		setContentView(R.layout.main);
+
         /* Buttons */
         /* The closing button */
         quitButton = (Button)findViewById(R.id.quit);
@@ -189,7 +155,6 @@ public class StepCounterActivity extends Activity {
 
         /* Text Views */
 		sampleRateText = (TextView)findViewById(R.id.sampleRateText);
-		traceLinesText = (TextView)findViewById(R.id.traceLinesText);
 		// Shows amount of steps taken
 		numberOfStepsText = (TextView)findViewById(R.id.numberOfStepsText);
 		// Displays: Number Of Steps
@@ -230,7 +195,7 @@ public class StepCounterActivity extends Activity {
 			@Override
 			public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
 				String s;
-				switch ((int) rateMultiplierBar.getProgress()) {
+				switch (rateMultiplierBar.getProgress()) {
 					case 0:
 						s = "Normal: 5 Hz";
 						Util.get().setRate(SampleRate.NORMAL);

@@ -1,9 +1,10 @@
-package be.ugent.csl.StepCounter;
+package androidintroductie.ugent.be.steps;
 
-public class ComplexStepDetector implements  StepDetector {
+public class ComplexStepDetector implements StepDetector {
 
     private int steps = 0;
     private int run = 0;
+    private int total = 0;
 
     private DataLogger logger = null;
 
@@ -52,7 +53,7 @@ public class ComplexStepDetector implements  StepDetector {
         double min = evenwicht;
         for (double i : waarden) {
             if (i > max) {
-                  max = i;
+                max = i;
             }
             if (i < min) {
                 min = i;
@@ -62,25 +63,31 @@ public class ComplexStepDetector implements  StepDetector {
         if (max >= evenwicht + stapGrenswaarde || min <= evenwicht - stapGrenswaarde) {
             if (max >= evenwicht + loopGrenswaarde || max <= evenwicht - loopGrenswaarde) {
                 run++;
+                total++;
             } else {
                 steps++;
+                total++;
             }
         }
     }
 
     public void setDataLogger(DataLogger logger) {
-        this.logger = logger;
-    }
+            this.logger = logger;
+        }
 
     public int getSteps() {
-        return steps;
-    }
+            return steps;
+        }
 
     public int getRun() {
-        return run;
+            return run;
+        }
+
+    public int getTotal() {
+        return total;
     }
 
     public String getName() {
-        return "complexStepDetector";
-    }
+            return "complexStepDetector";
+        }
 }

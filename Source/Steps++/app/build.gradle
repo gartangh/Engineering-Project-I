@@ -5,11 +5,11 @@ android {
     buildToolsVersion "23.0.2"
 
     defaultConfig {
-        applicationId "androidintroductie.ugent.be.steps"
-        minSdkVersion 16
-        targetSdkVersion 23
+        applicationId "androidintroductie.ugent.be.Steps"
+        minSdkVersion 7
+        targetSdkVersion 7
         versionCode 1
-        versionName "1.0.3"
+        versionName "1.0.5"
     }
     buildTypes {
         release {

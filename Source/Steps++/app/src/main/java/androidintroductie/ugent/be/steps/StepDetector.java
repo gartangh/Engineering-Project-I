@@ -14,6 +14,8 @@ public interface StepDetector {
 	public int getSteps();
 
 	public int getRun();
+
+	public int getTotal();
 	
 	public String getName();
 }

@@ -48,10 +48,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private EditText editText1;
     private ProgressBar progressBar;
 
+    private int target = 1000;
     private int steps = 0;
     private int run = 0;
-    private int target = 1000;
     private int max = 0;
+    private int total = 0;
 
     public static final String TAG = MainActivity.class.getName();
 
@@ -157,6 +158,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        textView1.setText("Steps Today");
+        textView2.setText("0");
         // Pick a random anecdote on startup.
         textView4.setText(anecdote());
         // Pick a random anecdote when clicked.
@@ -169,18 +172,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
         );
 
-        // For the moment
-        int total = 1234567;
-        String total2 = String.valueOf(total);
-        if (total < 1000) {
-            textView6.setText("Total " + total2);
-        } else if (total < 1000000) {
-            textView6.setText("Total " + total2.substring(0, total2.length() - 3) + "," + total2.substring(total2.length() - 3));
-        } else {
-            String textView6Text = "Total " + total2.substring(0, total2.length() - 6) + "," + total2.substring(total2.length() - 6, total2.length() - 3) + "," + total2.substring(total2.length() - 3);
-            textView6.setText(textView6Text);
-        }
-
+        textView6.setText("Total 0");
         // Calculate km
         textView7.setText((steps * 0.75) / 1000.000 + " km");
         // Calculate kCal
@@ -263,7 +255,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         String average2 = String.valueOf(average);
         if (average < 1000) {
             textView3.setText("Average " + average2);
-        } else if (average < 1000000){
+        } else if (average < 1000000) {
             textView3.setText("Average " + average2.substring(0, average2.length() - 3) + "," + average2.substring(average2.length() - 3));
         } else {
             textView3.setText("Average " + average2.substring(0, average2.length() - 6) + "," + average2.substring(average2.length() - 6, average2.length() - 3) + "," + average2.substring(average2.length()- 3));
@@ -277,13 +269,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 
         IntentFilter filter = new IntentFilter();
-        filter.addAction("be.ugent.csl.Step++Intent");
+        filter.addAction("be.ugent.csl.StepsIntent");
 
         BroadcastReceiver receiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
                 steps = Util.get().getCurrentStepDetector().getSteps();
                 run = Util.get().getCurrentStepDetector().getRun();
+                total = Util.get().getCurrentStepDetector().getTotal();
                 steps += run;
                 String steps2 = String.valueOf(steps);
                 if (steps < 1000) {
@@ -296,6 +289,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     textView2.setText(steps2.substring(0, steps2.length() - 3) + "," + steps2.substring(steps2.length() - 3));
                     textView2.setTextSize(92);
                 }
+
+                String total2 = String.valueOf(total);
+                if (total < 1000) {
+                    textView6.setText("Total " + total2);
+                } else if (total < 1000000) {
+                    textView6.setText("Total " + total2.substring(0, total2.length() - 3) + "," + total2.substring(total2.length() - 3));
+                } else {
+                    String textView6Text = "Total " + total2.substring(0, total2.length() - 6) + "," + total2.substring(total2.length() - 6, total2.length() - 3) + "," + total2.substring(total2.length() - 3);
+                    textView6.setText(textView6Text);
+                }
+
             }
         };
         registerReceiver(receiver, filter);
@@ -341,14 +345,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Fragment fragment = null;
 
         Class fragmentClass;
-        if (id == R.id.nav_log_data) {
-        } else if (id == R.id.nav_clear_data) {
-            Util.get().getLogger().clearLogFile();
-        } else if (id == R.id.nav_sample_rate) {
-
-        } else if (id == R.id.nav_checkbox){
-
-        } else if (id == R.id.nav_about) {
+        if (id == R.id.nav_about) {
 
         } else if (id == R.id.nav_exit) {
             finish();
