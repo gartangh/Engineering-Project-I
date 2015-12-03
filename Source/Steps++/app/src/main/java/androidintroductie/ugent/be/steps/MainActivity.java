@@ -53,6 +53,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private int run = 0;
     private int max = 0;
     private int total = 0;
+    private int stepsrun = 0;
 
     public static final String TAG = MainActivity.class.getName();
 
@@ -116,7 +117,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        Util.get().setStepDetector("complexStepDetector");
         // "Number of steps"
         textView1 = (TextView) findViewById(R.id.textView1);
         // Shows number of steps taken today
@@ -172,20 +173,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
         );
 
-        textView6.setText("Total 0");
-        // Calculate km
-        textView7.setText((steps * 0.75) / 1000.000 + " km");
-        // Calculate kCal
-        textView8.setText((steps * 3.0) / 100.0 + " kCal");
-        // Calculate fat burned
-        textView10.setText(steps / 300.0 + " g");
-        // Calculate max
-        textView11.setText("Max " + max);
-        if (steps >= max) {
-            max = steps;
-            textView11.setText("Max " + max);
-        }
-
         editText1.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
@@ -204,40 +191,25 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         if (input <= 100000 && input >= 100) {
                             target = input;
                             editText1.setText(String.valueOf(target));
-                            int stepsComparedToTarget = target - steps - run;
+                            int stepsComparedToTarget = target - stepsrun;
                             if (stepsComparedToTarget <= 0) {
                                 textView5.setText("Congratulations! You have reached your daily target of " + target + " steps!");
-                                progressBar.setProgress(100);
+                                progressBar.setProgress(steps / stepsrun * 100);
+                                progressBar.setSecondaryProgress(100);
                                 textView9.setText("100 %");
                                 // Notification (doesn't work jet)
                                 //Notify("Steps++ Target Reached","Congratulations! You have reached your daily target of " + target + " steps!");
                             } else {
-                                textView5.setText("Your target is " + target + " steps, still " + (target - steps - run) + " to go!");
+                                textView5.setText("Your target is " + target + " steps, still " + (target - stepsrun) + " to go!");
                                 progressBar.setProgress(steps * 100 / target);
-                                progressBar.setSecondaryProgress(run * 100/ target);
-                                textView9.setText((steps + run) / target + " %");
+                                progressBar.setSecondaryProgress(progressBar.getProgress() + run * 100 / target);
+                                textView9.setText((stepsrun) / target + " %");
                             }
                         }
                         return false;
                     }
                 }
         );
-
-        // Links text with target
-        int stepsComparedToTarget = target - steps - run;
-        if (stepsComparedToTarget <= 0) {
-            textView5.setText("Congratulations! You have reached your daily target of " + target + " steps!");
-            progressBar.setProgress(steps * 100/ target);
-            progressBar.setSecondaryProgress(run * 100 / target);
-            textView9.setText("100 %");
-            // Notification (doesn't work jet)
-            //Notify("Steps++ Target Reached","Congratulations! You have reached your daily target of " + target + " steps!");
-        } else {
-            textView5.setText("Your target is " + target + " steps, still " + (target - steps - run) + " to go!");
-            progressBar.setProgress(steps * 100 / target);
-            progressBar.setSecondaryProgress(run * 100/ target);
-            textView9.setText((steps + run) / target + " %");
-        }
 
         // Make a notificationbuilder
         //NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this);
@@ -269,24 +241,24 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 
         IntentFilter filter = new IntentFilter();
-        filter.addAction("be.ugent.csl.StepsIntent");
+        filter.addAction("be.ugent.csl.StepCounterIntent");
 
         BroadcastReceiver receiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
+
                 steps = Util.get().getCurrentStepDetector().getSteps();
                 run = Util.get().getCurrentStepDetector().getRun();
-                total = Util.get().getCurrentStepDetector().getTotal();
-                steps += run;
-                String steps2 = String.valueOf(steps);
+                stepsrun = Util.get().getCurrentStepDetector().getTotal();
+                String stepsrun2 = String.valueOf(stepsrun);
                 if (steps < 1000) {
-                    textView2.setText(steps2);
+                    textView2.setText(stepsrun2);
                     textView2.setTextSize(128);
                 } else if (steps < 10000) {
-                    textView2.setText(steps2.substring(0, steps2.length() - 3) + "," + steps2.substring(steps2.length() - 3));
+                    textView2.setText(stepsrun2.substring(0, stepsrun2.length() - 3) + "," + stepsrun2.substring(stepsrun2.length() - 3));
                     textView2.setTextSize(110);
                 } else {
-                    textView2.setText(steps2.substring(0, steps2.length() - 3) + "," + steps2.substring(steps2.length() - 3));
+                    textView2.setText(stepsrun2.substring(0, stepsrun2.length() - 3) + "," + stepsrun2.substring(stepsrun2.length() - 3));
                     textView2.setTextSize(92);
                 }
 
@@ -300,6 +272,34 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     textView6.setText(textView6Text);
                 }
 
+                // Calculate km
+                double km = (int)((steps * 0.75) + (run * 1.0))/1000.000;
+                textView7.setText(km + " km");
+                // Calculate kCal
+                textView8.setText((stepsrun * 3.0) / 100.0 + " kCal");
+                // Calculate fat burned
+                textView10.setText(stepsrun / 300.0 + " g");
+                // Calculate max
+                textView11.setText("Max " + max);
+                if (stepsrun >= max) {
+                    max = stepsrun;
+                    textView11.setText("Max " + max);
+                }
+
+                int stepsComparedToTarget = target - stepsrun;
+                if (stepsComparedToTarget <= 0) {
+                    textView5.setText("Congratulations! You have reached your daily target of " + target + " steps!");
+                    progressBar.setProgress(steps / stepsrun * 100);
+                    progressBar.setSecondaryProgress(run / stepsrun * 100);
+                    textView9.setText("100 %");
+                    // Notification (doesn't work jet)
+                    //Notify("Steps++ Target Reached","Congratulations! You have reached your daily target of " + target + " steps!");
+                } else {
+                    textView5.setText("Your target is " + target + " steps, still " + (target - stepsrun) + " to go!");
+                    progressBar.setProgress(steps * 100 / target);
+                    progressBar.setSecondaryProgress(progressBar.getProgress() + run * 100 / target);
+                    textView9.setText((stepsrun) / target + " %");
+                }
             }
         };
         registerReceiver(receiver, filter);

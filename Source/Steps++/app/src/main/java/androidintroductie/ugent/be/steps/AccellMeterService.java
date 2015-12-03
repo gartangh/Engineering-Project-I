@@ -93,6 +93,7 @@ public class AccellMeterService extends Service implements SensorEventListener {
 			* de gepaste argumenten. Je kunt hierbij gebruik maken
 			* van de velden in het event-object.
 			*/
+
             Util.get().gotSensorData(event.timestamp, event.values[0], event.values[1], event.values[2]);
         }
     }

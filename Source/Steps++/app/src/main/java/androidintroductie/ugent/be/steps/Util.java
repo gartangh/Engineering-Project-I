@@ -2,6 +2,8 @@ package androidintroductie.ugent.be.steps;
 
 import android.content.Intent;
 import android.os.Environment;
+import android.util.Log;
+
 import java.util.HashMap;
 
 public class Util {
@@ -107,6 +109,8 @@ public class Util {
             Intent intent = new Intent("be.ugent.csl.StepCounterIntent");
             accellMeterService.sendBroadcast(intent);
             lastEventTime = timestamp;
+            Log.i(Util.TAG, "SENT");
+
         }
         getLogger().flushLine();
     }

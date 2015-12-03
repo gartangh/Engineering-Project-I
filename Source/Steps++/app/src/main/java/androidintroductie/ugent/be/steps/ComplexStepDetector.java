@@ -2,9 +2,9 @@ package androidintroductie.ugent.be.steps;
 
 public class ComplexStepDetector implements StepDetector {
 
-    private int steps = 0;
-    private int run = 0;
-    private int total = 0;
+    private int steps = 70;
+    private int run = 25;
+    private int total = 95;
 
     private DataLogger logger = null;
 
@@ -20,8 +20,8 @@ public class ComplexStepDetector implements StepDetector {
     private double waarde8 = 9.81;
     private double waarde9;
 
-    private double stapGrenswaarde = 8;
-    private double loopGrenswaarde = 32;
+    private double stapGrenswaarde = 5;
+    private double loopGrenswaarde = 15;
 
     private double[] waarden = new double[40];
 
