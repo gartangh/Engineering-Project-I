@@ -94,6 +94,10 @@ public class ComplexStepDetector implements StepDetector {
         return total;
     }
 
+    public int getToday() {
+        return today;
+    }
+
     public String getName() {
             return "complexStepDetector";
         }
