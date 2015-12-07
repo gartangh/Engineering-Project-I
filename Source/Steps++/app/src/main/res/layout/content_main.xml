@@ -238,6 +238,10 @@
 
                             </LinearLayout>
 
+                            <Space
+                                android:layout_height="fill_parent"
+                                android:layout_width="20px" />
+
                             <LinearLayout
                                 android:orientation="vertical"
                                 android:layout_width="fill_parent"

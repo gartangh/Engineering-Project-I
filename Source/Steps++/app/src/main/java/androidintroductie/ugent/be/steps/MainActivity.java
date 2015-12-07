@@ -4,6 +4,9 @@ import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.Fragment;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
@@ -25,8 +28,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.app.NotificationManager;
-import android.support.v7.app.NotificationCompat;
 import android.view.KeyEvent;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -49,11 +50,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private ProgressBar progressBar;
 
     private int target = 100;
-    private int steps = 0;
-    private int run = 0;
+    private int steps;
+    private int run;
     private int max = 0;
-    private int total = 0;
-    private int stepsrun = 0;
+    private int total;
+    private int stepsrun;
+    int days = 1;
 
     public static final String TAG = MainActivity.class.getName();
 
@@ -158,7 +160,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        // Notification
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
@@ -166,9 +167,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         steps = Util.get().getCurrentStepDetector().getSteps();
         run = Util.get().getCurrentStepDetector().getRun();
-        stepsrun = Util.get().getCurrentStepDetector().getTotal();
+        stepsrun = Util.get().getCurrentStepDetector().getToday();
+        total = Util.get().getCurrentStepDetector().getTotal();
 
-        textView2.setText(String.valueOf(stepsrun));
+        setStepsText();
 
         // Pick a random anecdote on startup.
         textView4.setText(anecdote());
@@ -182,20 +184,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
         );
 
-        int stepsComparedToTarget = target - stepsrun;
-        if (stepsComparedToTarget <= 0) {
-            textView5.setText("Congratulations! You have reached your daily target of " + target + " steps!");
-            progressBar.setProgress((int)(steps * 100.0 / stepsrun));
-            progressBar.setSecondaryProgress(100);
-            textView9.setText("100 %");
-            // Notification (doesn't work jet)
-            //Notify("Steps++ Target Reached","Congratulations! You have reached your daily target of " + target + " steps!");
-        } else {
-            textView5.setText("Your target is " + target + " steps, still " + (target - stepsrun) + " to go!");
-            progressBar.setProgress((int)(steps * 100.0 / target));
-            progressBar.setSecondaryProgress(progressBar.getProgress() + (int)(run * 100.0 / target));
-            textView9.setText(String.valueOf((int)(stepsrun * 100.0 / target)) + " %");
-        }
+        setTargetText();
 
         editText1.setOnClickListener(
                 new View.OnClickListener() {
@@ -214,47 +203,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         int input = Integer.parseInt(editText1.getText().toString());
                         if (input <= 100000 && input >= 100) {
                             target = input;
-                            editText1.setText(String.valueOf(target));
-                            int stepsComparedToTarget = target - stepsrun;
-                            if (stepsComparedToTarget <= 0) {
-                                textView5.setText("Congratulations! You have reached your daily target of " + target + " steps!");
-                                progressBar.setProgress((int)(steps * 100.0 / stepsrun));
-                                progressBar.setSecondaryProgress(100);
-                                textView9.setText("100 %");
-                                // Notification (doesn't work jet)
-                                //Notify("Steps++ Target Reached","Congratulations! You have reached your daily target of " + target + " steps!");
-                            } else {
-                                textView5.setText("Your target is " + target + " steps, still " + (target - stepsrun) + " to go!");
-                                progressBar.setProgress(steps * 100 / target);
-                                progressBar.setSecondaryProgress(progressBar.getProgress() + (int)(run * 100.0 / target));
-                                textView9.setText(String.valueOf((int)(stepsrun * 100.0 / target)) + " %");
-                            }
+                            setTargetText();
                         }
                         return false;
                     }
                 }
         );
 
-        // Make a notificationbuilder
-        //NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this);
-
-        //int days = 0;
-        // When 00:00 o'clock;
-        /*
-        days++;
-         */
-
-        // For the moment
-        int days = 1;
-        int average = (int)(stepsrun * 1.0 / days);
-        String average2 = String.valueOf(average);
-        if (average < 1000) {
-            textView3.setText("Average " + average2);
-        } else if (average < 1000000) {
-            textView3.setText("Average " + average2.substring(0, average2.length() - 3) + "," + average2.substring(average2.length() - 3));
-        } else {
-            textView3.setText("Average " + average2.substring(0, average2.length() - 6) + "," + average2.substring(average2.length() - 6, average2.length() - 3) + "," + average2.substring(average2.length()- 3));
-        }
+        setAverageText();
 
         if(USE_SERVICE) {
             Intent i = new Intent(this, AccellMeterService.class);
@@ -272,58 +228,28 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                 steps = Util.get().getCurrentStepDetector().getSteps();
                 run = Util.get().getCurrentStepDetector().getRun();
-                stepsrun = Util.get().getCurrentStepDetector().getTotal();
-                String stepsrun2 = String.valueOf(stepsrun);
-                if (steps < 1000) {
-                    textView2.setText(stepsrun2);
-                    textView2.setTextSize(128);
-                } else if (steps < 10000) {
-                    textView2.setText(stepsrun2.substring(0, stepsrun2.length() - 3) + "," + stepsrun2.substring(stepsrun2.length() - 3));
-                    textView2.setTextSize(110);
-                } else {
-                    textView2.setText(stepsrun2.substring(0, stepsrun2.length() - 3) + "," + stepsrun2.substring(stepsrun2.length() - 3));
-                    textView2.setTextSize(92);
-                }
+                stepsrun = Util.get().getCurrentStepDetector().getToday();
+                total = Util.get().getCurrentStepDetector().getTotal();
 
-                String total2 = String.valueOf(total);
-                if (total < 1000) {
-                    textView6.setText("Total " + total2);
-                } else if (total < 1000000) {
-                    textView6.setText("Total " + total2.substring(0, total2.length() - 3) + "," + total2.substring(total2.length() - 3));
-                } else {
-                    String textView6Text = "Total " + total2.substring(0, total2.length() - 6) + "," + total2.substring(total2.length() - 6, total2.length() - 3) + "," + total2.substring(total2.length() - 3);
-                    textView6.setText(textView6Text);
-                }
+                setStepsText();
 
-                // Calculate km
-                double km = (int)((steps * 0.75) + (run * 1.0))/1000.000;
+                setTargetText();
+
+                double km = (int)((steps * 0.75) + (int)(run * 1.0)) / 1000.0;
                 textView7.setText(km + " km");
-                // Calculate kCal
-                textView8.setText((stepsrun * 3.0) / 100.0 + " kCal");
-                // Calculate fat burned
-                double kCal = (int)(stepsrun / 30.0) / 10.0;
-                textView10.setText(kCal + " g");
-                // Calculate max
-                textView11.setText("Max " + max);
-                if (stepsrun >= max) {
-                    max = stepsrun;
-                    textView11.setText("Max " + String.valueOf(max));
+                double kCal = (int)(stepsrun * 3.0) / 100.0;
+                textView8.setText(kCal + " kCal");
+                double fat = (int)(stepsrun / 3.0) / 100.0;
+                textView10.setText(fat + " g");
+
+                // When 00:00 o'clock;
+                if (System.currentTimeMillis() >= 0 && System.currentTimeMillis() <= 500) {
+                    days++;
                 }
 
-                int stepsComparedToTarget = target - stepsrun;
-                if (stepsComparedToTarget <= 0) {
-                    textView5.setText("Congratulations! You have reached your daily target of " + target + " steps!");
-                    progressBar.setProgress((int)(steps * 100.0 / stepsrun));
-                    progressBar.setSecondaryProgress(progressBar.getProgress() + (int)(run * 100.0 / stepsrun));
-                    textView9.setText("100 %");
-                    // Notification (doesn't work jet)
-                    //Notify("Steps++ Target Reached","Congratulations! You have reached your daily target of " + target + " steps!");
-                } else {
-                    textView5.setText("Your target is " + target + " steps, still " + (target - stepsrun) + " to go!");
-                    progressBar.setProgress((int)(steps * 100.0 / target));
-                    progressBar.setSecondaryProgress(progressBar.getProgress() + run * 100 / target);
-                    textView9.setText(String.valueOf((int)(stepsrun * 100.0 / target)) + " %");
-                }
+                setAverageText();
+
+                setTotalText();
             }
         };
         registerReceiver(receiver, filter);
@@ -393,7 +319,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         int number = (int) (0.5 + Math.random() * 40);
         switch(number) {
             case 0:
-                s = "An error has occurred, our anecdote generator didn't work!";
+                s = "An error has occurred,\nour anecdote generator didn't work!";
                 break;
             case 1:
                 s = "An average person makes 6,000 steps a day!\nMake sure you have the right shoes,\nor you'll get hurt!";
@@ -405,19 +331,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 s = "It's recommended to make 14,000 steps,\nonly 30 % makes it till 10,000!";
                 break;
             case 4:
-                s = "A person with a sitting job will only make 2,000 steps on average!\nTime to move!";
+                s = "A person with a sitting job will only\nmake 2,000 steps on average!\nTime to move!";
                 break;
             case 5:
-                s = "We move on average 25 % less than 30 years ago!";
+                s = "We move on average 25 % less\nthan 30 years ago!";
                 break;
             case 6:
-                s = "When you place your heel first when running, you're slowing yourself down.";
+                s = "When you place your heel first when running,\nyou're slowing yourself down.";
                 break;
             case 7:
-                s = "Even the Chinese leader Deng Xianping tracked his daily steps!";
+                s = "Even the Chinese leader Deng Xianping\ntracked his daily steps!";
                 break;
             case 8:
-                s = "A typical pair of tennis shoes will last 800 km of walking!\nIt’s probably a good idea to buy some!";
+                s = "A typical pair of tennis shoes will\nlast 800 km of walking!\nIt’s probably a good idea to buy some!";
                 break;
             case 9:
                 s = "It takes on 1 hour and 43 minutes of walking to burn a 540-calorie Big Mac!\nBetter start moving!";
@@ -450,25 +376,25 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 s = "To reach the top of the Burj Khalifa you need to climb a stairs containing 2909 steps,\nbetter take the lift!";
                 break;
             case 19:
-                s = "One lightyear (the distance light travels in one year) contains 12,614,266,670,000,000 steps (= 12 quadrillion steps)!";
+                s = "One lightyear (the distance light travels in one year) contains 12,614,266,670,000,000 steps (= 12 quadrillion)!";
                 break;
             case 20:
-                s = "The recommended body fat percentage for women is 20 - 21 %,\nfor men it's around 15 %.";
+                s = "The recommended body fat percentage for women is 20 - 21 %, for men it's around 15 %.";
                 break;
             case 21:
-                s = "The longest walk around the world was completed by a former neon sign salesman,\nJean Beliveau.He walked 75,000 km through 64 counties!\n The trip took him 11 years.";
+                s = "The longest walk around the world was\ncompleted by a former neon sign salesman,\nJean Beliveau. He walked 75,000 km through 64 counties! The trip took him 11 years.";
                 break;
             case 22:
                 s = "Racewalking has been an olympic sport for over 90 years!\nDistances go from 1.5 km untill 100 km.";
                 break;
             case 23:
-                s = "Given that the world is about 40,000 km in circumference and the average walking rate is 6 km an hour,\nit would take almost a year of nonstop walking to go around our planet!";
+                s = "The world is about 40,000 km in circumference and\nthe average walking rate is 6 km an hour,\nit would take almost a year of nonstop walking to go around our planet!";
                 break;
             case 24:
                 s = "Humans became bipedal 3 to 6 million years ago.\nOur ancestors did this to better carry goods and use energy more efficient.";
                 break;
             case 25:
-                s = "Researchers note that that the human backbone was not designed to\nwork in the vertical position of walking on two legs.\nThis is why modern humans suffer from sore backs, slipped discs, arthritis and more!";
+                s = "Researchers note that that the human\nbackbone was not designed to work in the\nvertical position of walking on two legs.\nThis is why modern humans suffer from sore backs, slipped discs, arthritis and more!";
                 break;
             case 26:
                 s = "Researchers at the Université Catholique de\nLouvain showed that you can see if a woman has sex regularly\nby the way she walks!";
@@ -477,13 +403,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 s = "It's possible to distinguish straight man from homosexual men by the way they walk.\nHomosexuals often sway their hips.";
                 break;
             case 28:
-                s = "The firsts successful robot to walk had 6 legs!\nAs technology has improved, robots can now walk on 2 feet.\nStill, they don't walk as gracefully as human beings.";
+                s = "The firsts successful robot to walk had 6 legs!\nAs technology improved, robots can now walk\non 2 feet. Still,they don't walk\nas gracefully as human beings.";
                 break;
             case 29:
-                s = "Scientists believe that walking originated underwater by\n\"hopping\" air-breathing fish.";
+                s = "Scientists believe that walking originated\nunderwater by\"hopping\" air-breathing fish.";
                 break;
             case 30:
-                s = "Amish men take about 18,425 steps per day! Amish woman take about 14,196!\nthe average American adult takes just about 4,000!\nOne of the reasons there is 27 % less obese in the Amish population.";
+                s = "Amish men take about 18,425 steps per day!\nAmish woman take about 14,196!\nThe average American adult just 4,000!\nOne of the reasons there is 27 % less obese in the Amish population.";
                 break;
             case 31:
                 s = "To burn off one plain M&M candy,\na person would need to walk the entire length of a football field!";
@@ -498,22 +424,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 s = "Walking is known as an ambulation.\nThe term \"walk\" stems from the old English word wealcan, or \"to roll\".";
                 break;
             case 35:
-                s = "Walking reduces the risk of heart attacks, type 2 diabetes and bone fractures!\nAdditionally, brisk walking can reduce stress and depression levels too.";
+                s = "Walking reduces the risk of heart attacks,\ntype 2 diabetes and bone fractures!\nAdditionally, brisk walking can reduce stress\nand depression levels too.";
                 break;
             case 36:
                 s = "Mortality rates among retired men who walked less than 1.6 km a day,\nare almost twice as high as those who walked more than 3.2 km!";
                 break;
             case 37:
-                s = "Walking helps prevent osteoporosis.\nResearch show that postmenopausal women who walk around 1.6 km per day\nhave higher whole-body bone than those who don't!";
+                s = "Walking helps prevent osteoporosis.\nResearch show that postmenopausal women,\nwho walk around 1.6 km per day, have higher\nwhole-body bone than those who don't!";
                 break;
             case 38:
-                s = "Experts not that when shopping for walking shoes,\nYou should always buy shoes that feel comfortable right away.\nThere is no breaking-in period.";
+                s = "Experts note that when shopping for shoes,\nyou should always buy shoes that feel\ncomfortable right away.\nThere is no breaking-in period.";
                 break;
             case 39:
-                s = "Feet swell during the day.\nIt's important to buy new shoes at the end of the day\nso they will fit best!";
+                s = "Feet swell during the day.\nIt's important to buy new shoes at the end of\nthe day so they will fit best!";
                 break;
             case 40:
-                s = "The average walking speed for humans is about 6 km per hour!";
+                s = "The average walking speed for humans\nis about 6 km per hour!";
                 break;
             default:
                 s = "Anecdotes will be displayed here.";
@@ -521,6 +447,80 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return s;
     }
 
-    //private void Notify(String title, String message) {
-    //    NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+    private void setTargetText() {
+        int stepsComparedToTarget = target - stepsrun;
+        if (stepsComparedToTarget <= 0) {
+            textView5.setText("Congratulations! You have reached your daily target of " + target + " steps!");
+            progressBar.setProgress((int) (steps * 100.0 / stepsrun));
+            progressBar.setSecondaryProgress(100);
+            textView9.setText("100 %");
+            createNotification();
+        } else {
+            textView5.setText("Your target is " + target + " steps, still " + (target - stepsrun) + " to go!");
+            progressBar.setProgress((int)(steps * 100.0 / target));
+            progressBar.setSecondaryProgress(progressBar.getProgress() + (int)(run * 100.0 / target));
+            textView9.setText(String.valueOf((int)(stepsrun * 100.0 / target)) + " %");
+        }
+    }
+
+    private void setAverageText() {
+        int average = (int) (total * 1.0 / days);
+        String average2 = String.valueOf(average);
+        if (average < 1000) {
+            textView3.setText("Average " + average2);
+        } else if (average < 1000000) {
+            textView3.setText("Average " + average2.substring(0, average2.length() - 3) + "," + average2.substring(average2.length() - 3));
+        } else {
+            textView3.setText("Average " + average2.substring(0, average2.length() - 6) + "," + average2.substring(average2.length() - 6, average2.length() - 3) + "," + average2.substring(average2.length() - 3));
+        }
+        textView11.setText("Max " + max);
+        if (stepsrun >= max) {
+            max = stepsrun;
+            textView11.setText("Max " + String.valueOf(max));
+        }
+    }
+
+    private void setTotalText() {
+        String total2 = String.valueOf(total);
+        if (total < 1000) {
+            textView6.setText("Total " + total2);
+        } else if (total < 1000000) {
+            textView6.setText("Total " + total2.substring(0, total2.length() - 3) + "," + total2.substring(total2.length() - 3));
+        } else {
+            String textView6Text = "Total " + total2.substring(0, total2.length() - 6) + "," + total2.substring(total2.length() - 6, total2.length() - 3) + "," + total2.substring(total2.length() - 3);
+            textView6.setText(textView6Text);
+        }
+    }
+
+    private void setStepsText() {
+        String stepsrun2 = String.valueOf(stepsrun);
+        if (steps < 1000) {
+            textView2.setText(stepsrun2);
+            textView2.setTextSize(128);
+        } else if (steps < 10000) {
+            textView2.setText(stepsrun2.substring(0, stepsrun2.length() - 3) + "," + stepsrun2.substring(stepsrun2.length() - 3));
+            textView2.setTextSize(110);
+        } else {
+            textView2.setText(stepsrun2.substring(0, stepsrun2.length() - 3) + "," + stepsrun2.substring(stepsrun2.length() - 3));
+            textView2.setTextSize(92);
+        }
+    }
+
+    private void createNotification() {
+        // prepare intent which is triggered if the notification is selected
+        Intent intent = new Intent(this, MainActivity.class);
+        // use System.currentTimeMillis() to have a unique ID for the pending intent
+        PendingIntent pIntent = PendingIntent.getActivity(this, (int)System.currentTimeMillis(), intent, 0);
+        // build notification
+        // the addAction re-use the same intent to keep the example short
+        Notification n  = new Notification.Builder(this).setContentTitle("Steps++ Target Reached")
+                .setContentText("Congratulations, you have reached your daily goal of " + target + "steps!")
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setContentIntent(pIntent)
+                .setAutoCancel(true).build();
+        NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        // hide the notification after its selected
+        n.flags |= Notification.FLAG_AUTO_CANCEL;
+        notificationManager.notify(0, n);
+    }
 }

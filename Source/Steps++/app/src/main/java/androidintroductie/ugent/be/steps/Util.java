@@ -109,7 +109,6 @@ public class Util {
             Intent intent = new Intent("be.ugent.csl.StepCounterIntent");
             accellMeterService.sendBroadcast(intent);
             lastEventTime = timestamp;
-            Log.i(Util.TAG, "SENT");
 
         }
         getLogger().flushLine();
