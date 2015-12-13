@@ -12,8 +12,6 @@ public interface StepDetector {
 	public int getToday();
 
 	public int getTotal();
-
-	public int getToday();
 	
 	public String getName();
 }

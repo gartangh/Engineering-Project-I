@@ -66,8 +66,6 @@ public class DummyStepDetector implements StepDetector {
         return 0;
     }
 
-    public int getToday() {return 0;}
-
     public String getName() {
         return "dummyStepDetector";
     }

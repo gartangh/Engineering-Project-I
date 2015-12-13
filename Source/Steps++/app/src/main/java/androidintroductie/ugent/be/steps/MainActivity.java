@@ -346,10 +346,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 s = "A typical pair of tennis shoes will\nlast 800 km of walking!\nIt’s probably a good idea to buy some!";
                 break;
             case 9:
-                s = "It takes on 1 hour and 43 minutes of walking to burn a 540-calorie Big Mac!\nBetter start moving!";
+                s = "It takes 1 hour and 43 minutes of walking to burn a 540-calorie Big Mac!\nBetter start moving!";
                 break;
             case 10:
-                s = "An average city block is equivalent to 200 steps.";
+                s = "An average city block is equivalent to\n200 steps.";
                 break;
             case 11:
                 s = "About 18 % of the world suffers from somnambulism or sleepwalking.\nDon’t forget your phone at night to be sure all your efforts are counted!";
@@ -376,7 +376,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 s = "To reach the top of the Burj Khalifa you need to climb a stairs containing 2909 steps,\nbetter take the lift!";
                 break;
             case 19:
-                s = "One lightyear (the distance light travels in one year) contains 12,614,266,670,000,000 steps (= 12 quadrillion)!";
+                s = "One lightyear\n(the distance light travels in one year)\ncontains 12,614,266,670,000,000 steps\n(= 12 quadrillion)!";
                 break;
             case 20:
                 s = "The recommended body fat percentage for women is 20 - 21 %, for men it's around 15 %.";
@@ -388,7 +388,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 s = "Racewalking has been an olympic sport for over 90 years!\nDistances go from 1.5 km untill 100 km.";
                 break;
             case 23:
-                s = "The world is about 40,000 km in circumference and\nthe average walking rate is 6 km an hour,\nit would take almost a year of nonstop walking to go around our planet!";
+                s = "The world is about 40,000 km in circumference and the average\nwalking rate is 6 km an hour,\nit would take almost a year of nonstop walking to go around our planet!";
                 break;
             case 24:
                 s = "Humans became bipedal 3 to 6 million years ago.\nOur ancestors did this to better carry goods and use energy more efficient.";
@@ -409,7 +409,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 s = "Scientists believe that walking originated\nunderwater by\"hopping\" air-breathing fish.";
                 break;
             case 30:
-                s = "Amish men take about 18,425 steps per day!\nAmish woman take about 14,196!\nThe average American adult just 4,000!\nOne of the reasons there is 27 % less obese in the Amish population.";
+                s = "Amish men take about 18,425 steps per day!\nAmish woman about 14,196!\nThe average American adult just 4,000!\nOne of the reasons, there is 27 % less obese\nin the Amish population.";
                 break;
             case 31:
                 s = "To burn off one plain M&M candy,\na person would need to walk the entire length of a football field!";
